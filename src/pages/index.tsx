@@ -1,5 +1,6 @@
 import { type NextPage } from "next";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Messages from "../components/Messages";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -9,9 +10,9 @@ const Home: NextPage = () => {
   }
 
   return (
-    <main>
-      <h1>Guestbook</h1>
-      <div>
+    <main className="flex flex-col items-center">
+      <h1 className="pt-4 text-3xl">Guestbook</h1>
+      <div className="pt-10">
         {session ? (
           <>
             <p>Hi {session.user?.name}</p>
@@ -20,6 +21,9 @@ const Home: NextPage = () => {
         ) : (
           <button onClick={() => signIn("discord")}>Login with Discord</button>
         )}
+        <div className="pt-10">
+          <Messages />
+        </div>
       </div>
     </main>
   );
