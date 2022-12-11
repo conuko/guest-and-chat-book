@@ -1,4 +1,4 @@
-# Create T3 App
+# T3 Guestbook
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
@@ -14,14 +14,28 @@ If you are not familiar with the different technologies used in this project, pl
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
 
-## Learn More
+## Get Started
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+1. To get started, clone the repository and run `npm install` in the root.
+2. Copy `.env.example`, rename it to `.env`, and paste your databse connection string in `DATABASE_URL`. For authentication paste your Discord client ID and secret in `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET`. You can get these from the [Discord Developer Portal](https://discord.com/developers/applications).
+3. Run `npx prisma db push` to push the schema to your database.
+4. Run `npm run dev` to start the development server.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Run `npx prisma studio` to open the Prisma Studio to view your database.
+ 
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Application Overview
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+- `prisma/*` - The prisma schema.
+- `public/*` - Static assets including fonts and images.
+- `src/env/*` - Validation for environment variables.
+- `src/pages/*` - All the pages of the website.
+- `src/server/*` - The backend, which is a tRPC server.
+- `src/styles/*` - Global CSS files, but we’re going to be using Tailwind CSS for most of our styles.
+- `src/types/*` - Next Auth type declarations.
+- `src/utils/*` - Utility functions.
+
+
 
 ## How do I deploy this?
 
