@@ -2,7 +2,10 @@ import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../trpc";
 
 export const guestbookRouter = router({
-  // Mutation to post a message to the guestbook
+  /* 
+  A tRPC mutation that uses zod to validate the input and has an async
+  function that runs a single prisma query to create a new row in the Guestbook table.
+  */
   postMessage: protectedProcedure
     .input(
       z.object({
