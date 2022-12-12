@@ -21,13 +21,13 @@ const Home: NextPage = () => {
             <div className="pt-6">
               <Form />
             </div>
+            <div className="pt-10">
+              <Messages />
+            </div>
           </>
         ) : (
           <button onClick={() => signIn("discord")}>Login with Discord</button>
         )}
-        <div className="pt-10">
-          <Messages />
-        </div>
       </div>
     </main>
   );
