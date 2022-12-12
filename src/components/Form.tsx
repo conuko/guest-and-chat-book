@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 const Form = () => {
   const { data: session } = useSession();
   const [message, setMessage] = useState("");
-  const utils = trpc.useContext();
+  //const utils = trpc.useContext();
   const postMessage = trpc.guestbook.postMessage.useMutation({
-    onMutate: () => {
+    /*     onMutate: () => {
       utils.guestbook.getAll.cancel();
       const optimisticUpdate = utils.guestbook.getAll.getData();
 
@@ -17,7 +17,7 @@ const Form = () => {
     },
     onSettled: () => {
       utils.guestbook.getAll.invalidate();
-    },
+    }, */
   });
 
   return (
