@@ -27,7 +27,7 @@ export const guestbookRouter = router({
     }),
 
   // Query to get all messages from the guestbook
-  getAll: publicProcedure.query(async ({ ctx }) => {
+  getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.guestbook.findMany({
         select: {
@@ -42,4 +42,22 @@ export const guestbookRouter = router({
       console.log(error);
     }
   }),
+
+  // Mutation to delete a message from the guestbook
+  deleteMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      try {
+        await ctx.prisma.guestbook.delete({
+          where: { id },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });
