@@ -7,16 +7,8 @@ const Form = () => {
   const [message, setMessage] = useState("");
   const utils = trpc.useContext();
   const postMessage = trpc.guestbook.postMessage.useMutation({
-    onMutate: () => {
-      utils.guestbook.getAll.cancel();
-      const optimisticUpdate = utils.guestbook.getAll.getData();
-
-      if (optimisticUpdate) {
-        utils.guestbook.getAll.setData(optimisticUpdate);
-      }
-    },
-    onSettled: () => {
-      utils.guestbook.getAll.invalidate();
+    async onSuccess() {
+      await utils.guestbook.getAll.invalidate();
     },
   });
 
