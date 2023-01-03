@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { router, protectedProcedure, publicProcedure } from "../trpc";
+import { router, protectedProcedure } from "../trpc";
 
 export const guestbookRouter = router({
   /* 
@@ -31,6 +31,7 @@ export const guestbookRouter = router({
     try {
       return await ctx.prisma.guestbook.findMany({
         select: {
+          id: true,
           name: true,
           message: true,
         },
