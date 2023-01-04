@@ -17,12 +17,11 @@ If you are not familiar with the different technologies used in this project, pl
 ## Get Started
 
 1. To get started, clone the repository and run `npm install` in the root.
-2. Copy `.env.example`, rename it to `.env`, and paste your databse connection string in `DATABASE_URL`. For authentication paste your Discord client ID and secret in `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET`. You can get these from the [Discord Developer Portal](https://discord.com/developers/applications).
+2. Copy `.env.example`, rename it to `.env`, and paste your databse connection string in `DATABASE_URL`. For authentication paste your Discord client ID and secret in `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET`. You can get these from the [Discord Developer Portal](https://discord.com/developers/applications). I set up my postgres database on [Railway](https://railway.app/)
 3. Run `npx prisma db push` to push the schema to your database.
 4. Run `npm run dev` to start the development server.
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 6. Run `npx prisma studio` to open the Prisma Studio to view your database.
- 
 
 ## Application Overview
 
@@ -34,8 +33,6 @@ If you are not familiar with the different technologies used in this project, pl
 - `src/styles/*` - Global CSS files, but we’re going to be using Tailwind CSS for most of our styles.
 - `src/types/*` - Next Auth type declarations.
 - `src/utils/*` - Utility functions.
-
-
 
 ## How do I deploy this?
 
