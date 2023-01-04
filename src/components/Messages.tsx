@@ -8,6 +8,7 @@ const Messages = () => {
 
   const deleteMessage = trpc.guestbook.deleteMessage.useMutation({
     async onSuccess() {
+      // refetches messages after a message is deleted
       await utils.guestbook.getAll.invalidate();
     },
   });
