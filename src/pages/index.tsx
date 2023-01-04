@@ -26,7 +26,12 @@ const Home: NextPage = () => {
             </div>
           </>
         ) : (
-          <button onClick={() => signIn("discord")}>Login with Discord</button>
+          <div>
+            <button onClick={() => signIn("discord")}>
+              Login with Discord
+            </button>
+            <button onClick={() => signIn("github")}>Login with GitHub</button>
+          </div>
         )}
       </div>
     </main>
