@@ -23,10 +23,19 @@ const Messages = () => {
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
         return (
-          <div key={index}>
-            <p>{msg.message}</p>
-            <span>- {msg.name}</span>
-            <button onClick={() => handleDelete(msg.id)}>x</button>
+          <div className="flex items-center justify-between gap-2" key={index}>
+            <div>
+              <p>{msg.message}</p>
+              <span>- {msg.name}</span>
+            </div>
+            <div>
+              <button
+                className="pl-5 text-red-400 hover:text-red-500"
+                onClick={() => handleDelete(msg.id)}
+              >
+                X
+              </button>
+            </div>
           </div>
         );
       })}
