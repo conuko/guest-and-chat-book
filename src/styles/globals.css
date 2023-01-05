@@ -5,3 +5,7 @@
 body {
   @apply bg-neutral-900 text-neutral-100;
 }
+
+button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}

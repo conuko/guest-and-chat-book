@@ -37,6 +37,7 @@ const Form = () => {
       <button
         type="submit"
         className="rounded-md border-2 border-zinc-800 p-2 focus:outline-none"
+        disabled={message.length < 2 || postMessage.isLoading}
       >
         Submit
       </button>
