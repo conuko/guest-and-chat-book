@@ -1,7 +1,9 @@
 import { trpc } from "../utils/trpc";
+import { useSession } from "next-auth/react";
 
 const Messages = () => {
   const { data: messages, isLoading } = trpc.guestbook.getAll.useQuery();
+  const { data: session } = useSession();
 
   // delete message
   const utils = trpc.useContext();
@@ -28,14 +30,16 @@ const Messages = () => {
               <p>{msg.message}</p>
               <span>- {msg.name}</span>
             </div>
-            <div>
-              <button
-                className="pl-5 text-red-400 hover:text-red-500"
-                onClick={() => handleDelete(msg.id)}
-              >
-                X
-              </button>
-            </div>
+            {msg.name === session?.user?.name && (
+              <div>
+                <button
+                  className="pl-5 text-red-400 hover:text-red-500"
+                  onClick={() => handleDelete(msg.id)}
+                >
+                  X
+                </button>
+              </div>
+            )}
           </div>
         );
       })}
