@@ -32,7 +32,7 @@ const Form = () => {
         minLength={2}
         maxLength={100}
         onChange={(event) => setMessage(event.target.value)}
-        className="rounded-md border-2 border-zinc-800 bg-neutral-900 px-4 py-2 focus:outline-none"
+        className="rounded-md border-2 border-zinc-800 bg-neutral-900 px-4 py-2 opacity-50 focus:opacity-100 focus:outline-none"
       />
       <button
         type="submit"

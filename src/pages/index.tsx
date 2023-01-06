@@ -17,8 +17,15 @@ const Home: NextPage = () => {
       <div className="pt-10">
         {session ? (
           <>
-            <p>Hi {session.user?.name}</p>
-            <button onClick={() => signOut()}>Logout</button>
+            <div className="flex items-center justify-between">
+              <p>Hi {session.user?.name}</p>
+              <button
+                className="p-2 text-red-400 hover:text-red-500 focus:outline-none"
+                onClick={() => signOut()}
+              >
+                Logout
+              </button>
+            </div>
             <div className="pt-6">
               <Form />
             </div>
