@@ -25,10 +25,13 @@ const Messages = () => {
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
         return (
-          <div className="flex items-center justify-between gap-2" key={index}>
+          <div
+            className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6"
+            key={index}
+          >
             <div>
               <p>{msg.message}</p>
-              <span>- {msg.name}</span>
+              <span className="text-gray-400">- {msg.name}</span>
             </div>
             {msg.name === session?.user?.name && (
               <div>

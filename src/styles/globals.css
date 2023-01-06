@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply bg-neutral-900 text-neutral-100;
+  @apply bg-neutral-900 p-4 text-neutral-100;
 }
 
 button:disabled {
