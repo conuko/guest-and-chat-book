@@ -1,4 +1,5 @@
 import { type NextPage } from "next";
+import Image from "next/image";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Messages from "../components/Messages";
 import Form from "../components/Form";
@@ -27,10 +28,30 @@ const Home: NextPage = () => {
           </>
         ) : (
           <div>
-            <button onClick={() => signIn("discord")}>
-              Login with Discord
+            <button
+              className="flex items-center justify-between gap-4 rounded-md border-2 border-zinc-800 p-2 focus:outline-none"
+              onClick={() => signIn("discord")}
+            >
+              Login with
+              <Image
+                src="/discord.svg"
+                alt="Discord logo"
+                width={32}
+                height={32}
+              />
             </button>
-            <button onClick={() => signIn("github")}>Login with GitHub</button>
+            <button
+              className="mt-4 flex items-center justify-between gap-4 rounded-md border-2 border-white bg-white p-2 text-black focus:outline-none"
+              onClick={() => signIn("github")}
+            >
+              Login with
+              <Image
+                src="/github.svg"
+                alt="GitHub logo"
+                width={32}
+                height={32}
+              />
+            </button>
           </div>
         )}
       </div>
