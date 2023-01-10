@@ -9,6 +9,7 @@ export const guestbookRouter = router({
   postMessage: protectedProcedure
     .input(
       z.object({
+        userId: z.string().cuid(),
         name: z.string(),
         message: z.string(),
       })
@@ -17,6 +18,7 @@ export const guestbookRouter = router({
       try {
         await ctx.prisma.guestbook.create({
           data: {
+            userId: input.userId,
             name: input.name,
             message: input.message,
           },

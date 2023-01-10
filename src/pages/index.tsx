@@ -12,9 +12,7 @@ const Home: NextPage = () => {
     return <main>Loading...</main>;
   }
 
-  console.log(session?.user?.name?.split(" ")[0]);
-  console.log(session?.user?.image);
-  console.log(session?.user?.email);
+  console.log(session?.user);
 
   return (
     <main className="flex flex-col items-center">
