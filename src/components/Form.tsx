@@ -19,6 +19,7 @@ const Form = () => {
       onSubmit={(event) => {
         event.preventDefault();
         postMessage.mutate({
+          userId: session?.user?.id as string,
           name: session?.user?.name as string,
           message,
         });
