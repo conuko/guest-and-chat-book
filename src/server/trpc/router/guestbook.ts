@@ -35,6 +35,7 @@ export const guestbookRouter = router({
         select: {
           id: true,
           name: true,
+          userId: true,
           message: true,
         },
         orderBy: {

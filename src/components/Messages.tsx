@@ -33,7 +33,7 @@ const Messages = () => {
               <p>{msg.message}</p>
               <span className="text-gray-400">- {msg.name}</span>
             </div>
-            {msg.name === session?.user?.name && (
+            {msg.userId === session?.user?.id && (
               <div>
                 <button
                   className="pl-5 text-red-400 hover:text-red-500"
