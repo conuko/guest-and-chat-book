@@ -64,4 +64,24 @@ export const guestbookRouter = router({
         console.log(error);
       }
     }),
+
+  // Mutation to update a message from the guestbook
+  updateMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        message: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, message } = input;
+      try {
+        await ctx.prisma.guestbook.update({
+          where: { id },
+          data: { message },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
 });
