@@ -12,8 +12,6 @@ const Home: NextPage = () => {
     return <main>Loading...</main>;
   }
 
-  console.log(session?.user);
-
   return (
     <main className="flex flex-col items-center">
       <h1 className="pt-4 text-3xl">Guestbook</h1>

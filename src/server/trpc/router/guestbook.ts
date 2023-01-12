@@ -35,6 +35,7 @@ export const guestbookRouter = router({
         select: {
           id: true,
           name: true,
+          userId: true,
           message: true,
         },
         orderBy: {
@@ -58,6 +59,26 @@ export const guestbookRouter = router({
       try {
         await ctx.prisma.guestbook.delete({
           where: { id },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }),
+
+  // Mutation to update a message from the guestbook
+  updateMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        message: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, message } = input;
+      try {
+        await ctx.prisma.guestbook.update({
+          where: { id },
+          data: { message },
         });
       } catch (error) {
         console.log(error);
