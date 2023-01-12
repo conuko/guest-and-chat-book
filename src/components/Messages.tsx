@@ -10,12 +10,18 @@ const Messages = () => {
   const [messageId, setMessageId] = useState("");
   const [message, setMessage] = useState("");
 
-  // delete message
   const utils = trpc.useContext();
 
   const deleteMessage = trpc.guestbook.deleteMessage.useMutation({
     async onSuccess() {
       // refetches messages after a message is deleted
+      await utils.guestbook.getAll.invalidate();
+    },
+  });
+
+  const updateMessage = trpc.guestbook.updateMessage.useMutation({
+    // refetches messages after a message is updated
+    async onSuccess() {
       await utils.guestbook.getAll.invalidate();
     },
   });
@@ -106,7 +112,14 @@ const Messages = () => {
             */
             return msg.id === messageId ? (
               <div key={index}>
-                <form className="flex gap-2" action="">
+                <form
+                  className="flex gap-2"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    updateMessage.mutate({ id: messageId, message: message });
+                    handleOnClose();
+                  }}
+                >
                   <input
                     type="text"
                     value={message}
