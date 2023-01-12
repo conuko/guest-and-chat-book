@@ -1,10 +1,13 @@
 import { trpc } from "../utils/trpc";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
+import ReactModal from "react-modal";
+import { useState } from "react";
 
 const Messages = () => {
   const { data: messages, isLoading } = trpc.guestbook.getAll.useQuery();
   const { data: session } = useSession();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [messageId, setMessageId] = useState("");
 
   // delete message
   const utils = trpc.useContext();
@@ -20,6 +23,16 @@ const Messages = () => {
     deleteMessage.mutate({ id: id });
   };
 
+  const handleOnClick = (value: string) => {
+    setMessageId(value);
+    setModalIsOpen(true);
+  };
+
+  const handleOnClose = () => {
+    setMessageId("");
+    setModalIsOpen(false);
+  };
+
   if (isLoading) return <div>Fetching messages...</div>;
 
   return (
@@ -30,24 +43,24 @@ const Messages = () => {
         make it possible to click and edit message and show delete button:
         */
         return msg.userId === session?.user?.id ? (
-          <Link
+          <button
             className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6 hover:border-zinc-500"
             key={index}
-            href={`/messages/${msg.id}`}
+            onClick={() => handleOnClick(msg.id)}
           >
             <div>
               <p>{msg.message}</p>
               <span className="text-gray-400">- {msg.name}</span>
             </div>
-            {/*            <div>
+            <div>
               <button
-                className="pl-5 text-red-400 hover:text-red-500"
+                className="z-50 pl-5 text-red-400 hover:text-red-500"
                 onClick={() => handleDelete(msg.id)}
               >
                 X
               </button>
-            </div> */}
-          </Link>
+            </div>
+          </button>
         ) : (
           /* 
            if the message does not belong to the user, just display the message:
@@ -66,6 +79,27 @@ const Messages = () => {
       {deleteMessage.error && (
         <p>Something went wrong! {deleteMessage.error.message}</p>
       )}
+
+      {/* 
+      The modal that opens when you click on a message:
+      */}
+      <ReactModal
+        overlayClassName="fixed inset-0 bg-black bg-opacity-50 top-0 left-0"
+        className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6"
+        isOpen={modalIsOpen}
+      >
+        <div>
+          {messages?.map((msg, index) => {
+            return msg.id === messageId ? (
+              <div key={index}>
+                <p>{msg.message}</p>
+                <span className="text-gray-400">- {msg.name}</span>
+              </div>
+            ) : null;
+          })}
+          <button onClick={() => handleOnClose()}>Close</button>
+        </div>
+      </ReactModal>
     </div>
   );
 };
