@@ -43,8 +43,8 @@ const Messages = () => {
         make it possible to click and edit message and show delete button:
         */
         return msg.userId === session?.user?.id ? (
-          <button
-            className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6 hover:border-zinc-500"
+          <div
+            className="flex cursor-pointer items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6 hover:border-zinc-500"
             key={index}
             onClick={() => handleOnClick(msg.id)}
           >
@@ -60,7 +60,7 @@ const Messages = () => {
                 X
               </button>
             </div>
-          </button>
+          </div>
         ) : (
           /* 
            if the message does not belong to the user, just display the message:
@@ -87,6 +87,7 @@ const Messages = () => {
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 top-0 left-0"
         className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6"
         isOpen={modalIsOpen}
+        ariaHideApp={false}
       >
         <div>
           {messages?.map((msg, index) => {
