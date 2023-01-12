@@ -8,6 +8,7 @@ const Messages = () => {
   const { data: session } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [messageId, setMessageId] = useState("");
+  const [message, setMessage] = useState("");
 
   // delete message
   const utils = trpc.useContext();
@@ -26,10 +27,19 @@ const Messages = () => {
   const handleOnClick = (value: string) => {
     setMessageId(value);
     setModalIsOpen(true);
+
+    /* 
+    add the message to the state, when the message id matches
+    the id of the message that was clicked:
+    */
+    messages?.map((msg) => {
+      msg.id === value && setMessage(msg.message);
+    });
   };
 
   const handleOnClose = () => {
     setMessageId("");
+    setMessage("");
     setModalIsOpen(false);
   };
 
@@ -91,9 +101,28 @@ const Messages = () => {
       >
         <div>
           {messages?.map((msg, index) => {
+            /*
+            display just the message that was clicked by checking the id:
+            */
             return msg.id === messageId ? (
               <div key={index}>
-                <p>{msg.message}</p>
+                <form className="flex gap-2" action="">
+                  <input
+                    type="text"
+                    value={message}
+                    minLength={2}
+                    maxLength={100}
+                    onChange={(event) => setMessage(event.target.value)}
+                    className="rounded-md border-2 border-zinc-800 bg-neutral-900 px-4 py-2 opacity-50 focus:opacity-100 focus:outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="rounded-md border-2 border-zinc-800 p-2 focus:outline-none"
+                  >
+                    Edit
+                  </button>
+                </form>
+
                 <span className="text-gray-400">- {msg.name}</span>
               </div>
             ) : null;
