@@ -1,4 +1,14 @@
-import { expect, test, vi } from "vitest"; // 👈🏻 Added the `vi` import
+/* 
+This are unit tests for the functions of the guestbook trpc endpoint.
+The functions are mocked using vitest's vi.mock() function.
+The mocked functions are imported from the __mocks__ folder.
+For more information about unit testing and mocking with prisma and vitest, see:
+https://vitest.dev/guide/mocking.html#cheat-sheet
+https://www.prisma.io/docs/guides/testing/unit-testing
+https://www.prisma.io/blog/testing-series-1-8eRB5p0Y8o
+*/
+
+import { expect, test, vi } from "vitest";
 import {
   postMessage,
   getAll,
@@ -63,13 +73,13 @@ test("deleteMessage mutation with valid input should delete the message", async 
     createdAt: new Date(),
   };
   prisma.guestbook.delete.mockResolvedValue(message);
-  const deletedMessage = await deleteMessage({ id: message.id });
+  const deletedMessage = await deleteMessage(message.id);
   expect(deletedMessage).toStrictEqual(message);
 });
 
 test("deleteMessage mutation with invalid input should throw an error", async () => {
-  prisma.guestbook.delete.mockRejectedValue(new Error("Invalid input"));
-  await expect(deleteMessage({ id: "1" })).rejects.toThrow("Invalid input");
+  prisma.guestbook.delete.mockRejectedValue(new Error("Message not found"));
+  await expect(deleteMessage("3")).rejects.toThrow("Message not found");
 });
 
 // update message test

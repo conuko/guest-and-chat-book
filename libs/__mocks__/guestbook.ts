@@ -28,7 +28,7 @@ export async function getAll() {
   });
 }
 
-export async function deleteMessage({ id }: { id: string }) {
+export async function deleteMessage(id: string) {
   return await prisma.guestbook.delete({
     where: { id },
   });
