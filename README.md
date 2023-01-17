@@ -24,6 +24,7 @@ These instructions will get you a copy of the project up and running on your loc
 8. Run `npm run dev` to start the development server.
 9. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 10. Run `npx prisma studio` to open the Prisma Studio to view your database.
+11. Run `npm run docker:down` to stop the database when you’re done. This will also delete all the data in your database.
 
 ## Application Overview
 
