@@ -26,6 +26,11 @@ These instructions will get you a copy of the project up and running on your loc
 10. Run `npx prisma studio` to open the Prisma Studio to view your database.
 11. Run `npm run docker:down` to stop the database when you’re done. This will also delete all the data in your database.
 
+### Testing
+
+1. Before running the tests, make sure you have the database running with `npm run docker:up`. Also make sure you have the database seeded with `npm run db:seed`.
+2. Run `npm run test` to run the tests.
+
 ## Application Overview
 
 - `prisma/*` - The prisma schema.

@@ -12,9 +12,7 @@
     "start": "next start",
     "test": "vitest",
     "docker:up": "docker-compose up -d",
-    "docker:down": "docker-compose down",
-    "integration-test": "npm run docker:up && dotenv -e .env.test npx prisma db push && npm run db-test:seed",
-    "prisma-studio-test": "dotenv -e .env.test npx prisma studio"
+    "docker:down": "docker-compose down"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
