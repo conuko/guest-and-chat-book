@@ -6,10 +6,10 @@ services:
   db:
     image: postgres
     restart: always
-    container_name: integration-tests-prisma
+    container_name: guest-and-chat-book-db
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: prisma
-      POSTGRES_PASSWORD: prisma
-      POSTGRES_DB: tests
+      POSTGRES_USER: conuko
+      POSTGRES_PASSWORD: conuko
+      POSTGRES_DB: guest_and_chat_book
