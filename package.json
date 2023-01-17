@@ -7,7 +7,6 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "db:seed": "ts-node prisma/seed.mjs",
-    "db-test:seed": "dotenv -e .env.test ts-node prisma/seed.mjs",
     "lint": "next lint",
     "start": "next start",
     "test": "vitest",
