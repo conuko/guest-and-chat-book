@@ -1,9 +1,10 @@
 import { expect, test, vi, describe, it, beforeAll } from "vitest";
-import prisma from "../libs/__mocks__/prisma";
 import { trpc } from "../src/utils/trpc";
 import { useSession } from "next-auth/react";
 
-vi.mock("../libs/prisma");
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 vi.mock("next-auth/react", () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -37,14 +38,14 @@ describe("The mocked Auth Session", () => {
 });
 
 // Write test cases for the guestbook endpoint here
-/* describe("The guestbook query getAll", () => {
+describe("The guestbook query getAll", () => {
   beforeAll(async () => {
     await prisma.$connect();
   });
 
   it("should return all posts", async () => {
     //const posts = await trpc.router.query("guestbook.getAll");
-    const messages = prisma.guestbook.findMany({
+    const messages = await prisma.guestbook.findMany({
       select: {
         id: true,
         name: true,
@@ -56,5 +57,8 @@ describe("The mocked Auth Session", () => {
       },
     });
     expect(messages).toBeDefined();
+    expect(messages.length).toBeGreaterThan(0);
+    expect(messages[0]?.name).toBeDefined();
+    expect(messages[0]?.message).toBeDefined();
   });
-}); */
+});
