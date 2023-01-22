@@ -100,7 +100,7 @@ describe("The guestbook query getAll", () => {
   });
 });
 
-// test the guestbook mutations
+// test the guestbook mutations (postMessage, deleteMessage and updateMessage)
 describe("The guestbook mutation postMessage", () => {
   beforeAll(async () => {
     await prisma.$connect();
@@ -122,6 +122,37 @@ describe("The guestbook mutation postMessage", () => {
     expect(newMessage?.name).toBe(name);
     expect(newMessage?.userId).toBe(userId);
     expect(newMessage?.message).toBe(message);
+  });
+});
+
+describe("The guestbook mutation deleteMessage", () => {
+  beforeAll(async () => {
+    await prisma.$connect();
+  });
+
+  it("should delete a message", async () => {
+    const message = "This is a test message that will be deleted.";
+    const messageToBeDeleted = await prisma.guestbook.create({
+      data: {
+        userId: "2",
+        name: "Urzuk the Wise",
+        message: message,
+      },
+    });
+    expect(messageToBeDeleted).toBeDefined();
+    expect(messageToBeDeleted?.name).toBe("Urzuk the Wise");
+    expect(messageToBeDeleted?.userId).toBe("2");
+    expect(messageToBeDeleted?.message).toBe(message);
+
+    const deletedMessage = await prisma.guestbook.delete({
+      where: {
+        id: messageToBeDeleted?.id,
+      },
+    });
+    expect(deletedMessage).toBeDefined();
+    expect(deletedMessage?.name).toBe("Urzuk the Wise");
+    expect(deletedMessage?.userId).toBe("2");
+    expect(deletedMessage?.message).toBe(message);
   });
 });
 
