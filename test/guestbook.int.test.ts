@@ -156,6 +156,38 @@ describe("The guestbook mutation deleteMessage", () => {
   });
 });
 
+describe("The guestbook mutation updateMessage", () => {
+  beforeAll(async () => {
+    await prisma.$connect();
+  });
+
+  it("should update a message", async () => {
+    const message = "This is a test message that will be updated.";
+    const newMessage = "This is the updated message.";
+
+    const messageToBeUpdated = await prisma.guestbook.create({
+      data: {
+        userId: "2",
+        name: "Urzuk the Wise",
+        message: message,
+      },
+    });
+
+    const updatedMessage = await prisma.guestbook.update({
+      where: {
+        id: messageToBeUpdated?.id,
+      },
+      data: {
+        message: newMessage,
+      },
+    });
+    expect(updatedMessage).toBeDefined();
+    expect(updatedMessage?.name).toBe("Urzuk the Wise");
+    expect(updatedMessage?.userId).toBe("2");
+    expect(updatedMessage?.message).toBe(newMessage);
+  });
+});
+
 // delete all messages after each test
 afterAll(async () => {
   const deleteAllMessages = prisma.guestbook.deleteMany();
