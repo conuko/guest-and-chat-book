@@ -1,4 +1,4 @@
-import { expect, test, vi, describe, it, beforeAll, afterAll } from "vitest";
+import { expect, vi, describe, it, beforeAll, afterAll } from "vitest";
 import { useSession } from "next-auth/react";
 import { PrismaClient } from "@prisma/client";
 
