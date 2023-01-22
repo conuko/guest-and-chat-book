@@ -1,9 +1,10 @@
-import { expect, test, vi, describe, it, beforeAll } from "vitest";
+import { expect, test, vi, describe, it, beforeAll, afterAll } from "vitest";
 import { useSession } from "next-auth/react";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// mock the useSession hook from next-auth to return a mock session
 vi.mock("next-auth/react", () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const originalModule = require("next-auth/react");
@@ -39,6 +40,29 @@ vi.mock("next-auth/react", () => {
   };
 });
 
+// create some test data before each test that will be deleted after each test
+beforeAll(async () => {
+  await prisma.$connect();
+
+  await prisma.guestbook.createMany({
+    data: [
+      {
+        name: "Danger Dan",
+        message: "You are in danger! Danger Dan is here to help.",
+        userId: "1",
+        createdAt: new Date(),
+      },
+      {
+        name: "Urzuk the Wise",
+        message: "This is a test message from Urzuk the Wise.",
+        userId: "2",
+        createdAt: new Date(),
+      },
+    ],
+  });
+});
+
+// test the mocked useSession hook
 describe("The mocked Auth Session", () => {
   it("should return an authenticated session", async () => {
     const { data, status } = useSession();
@@ -51,6 +75,7 @@ describe("The mocked Auth Session", () => {
   });
 });
 
+// test the guestbook queries
 describe("The guestbook query getAll", () => {
   beforeAll(async () => {
     await prisma.$connect();
@@ -75,6 +100,7 @@ describe("The guestbook query getAll", () => {
   });
 });
 
+// test the guestbook mutations
 describe("The guestbook mutation postMessage", () => {
   beforeAll(async () => {
     await prisma.$connect();
@@ -97,4 +123,11 @@ describe("The guestbook mutation postMessage", () => {
     expect(newMessage?.userId).toBe(userId);
     expect(newMessage?.message).toBe(message);
   });
+});
+
+// delete all messages after each test
+afterAll(async () => {
+  const deleteAllMessages = prisma.guestbook.deleteMany();
+  await prisma.$transaction([deleteAllMessages]);
+  await prisma.$disconnect();
 });
