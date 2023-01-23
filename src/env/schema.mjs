@@ -23,6 +23,10 @@ export const serverSchema = z.object({
   DISCORD_CLIENT_SECRET: z.string(),
   GITHUB_ID: z.string(),
   GITHUB_SECRET: z.string(),
+  STRIPE_PK: z.string(),
+  STRIPE_SK: z.string(),
+  STRIPE_PRICE_ID: z.string(),
+  STRIPE_WEBHOOK_SECRET: z.string(),
 });
 
 /**
