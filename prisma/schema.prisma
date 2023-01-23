@@ -56,6 +56,20 @@ model User {
   accounts      Account[]
   sessions      Session[]
   guestbooks    Guestbook[]
+  stripeCustomerId         String? // link to Stripe customer object in Stripe's system
+  stripeSubscriptionId     String? // link to Stripe subscription object for user in Stripe's system
+  stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
+}
+
+// https://stripe.com/docs/api/subscriptions/object#subscription_object-status
+enum StripeSubscriptionStatus {
+  incomplete
+  incomplete_expired
+  trialing
+  active
+  past_due
+  canceled
+  unpaid
 }
 
 model VerificationToken {
@@ -73,4 +87,17 @@ model Guestbook {
     message   String   @db.VarChar(100)
     user      User     @relation(fields: [userId], references: [id])
     userId    String
+}
+
+model StripeEvent {
+  id               String   @id @unique
+  api_version      String?
+  data             Json
+  request          Json?
+  type             String
+  object           String
+  account          String?
+  created          DateTime
+  livemode         Boolean
+  pending_webhooks Int
 }
