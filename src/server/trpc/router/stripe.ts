@@ -32,8 +32,8 @@ export const stripeRouter = router({
           quantity: 1,
         },
       ],
-      success_url: `${baseUrl}/dashboard?checkoutSuccess=true`,
-      cancel_url: `${baseUrl}/dashboard?checkoutCanceled=true`,
+      success_url: `${baseUrl}/?checkoutSuccess=true`,
+      cancel_url: `${baseUrl}/?checkoutCanceled=true`,
       subscription_data: {
         metadata: {
           userId: session.user?.id,
@@ -68,7 +68,7 @@ export const stripeRouter = router({
     const stripeBillingPortalSession =
       await stripe.billingPortal.sessions.create({
         customer: customerId,
-        return_url: `${baseUrl}/dashboard`,
+        return_url: `${baseUrl}/`,
       });
 
     if (!stripeBillingPortalSession) {
