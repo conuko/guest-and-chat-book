@@ -11,6 +11,7 @@ These instructions will get you a copy of the project up and running on your loc
 - [Node.js v 18](https://nodejs.org/en/). Just run `nvm use` to use the correct version.
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Stripe](https://stripe.com) CLI installed globally (`npm i -g stripe`)
 
 ### Installation
 
@@ -25,6 +26,17 @@ These instructions will get you a copy of the project up and running on your loc
 9. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 10. Run `npx prisma studio` to open the Prisma Studio to view your database.
 11. Run `npm run docker:down` to stop the database when you’re done. This will also delete all the data in your database.
+
+### Stripe Local Setup
+
+1. Install the Stripe CLI by running `npm install -g stripe`.
+2. Run `stripe login` and follow the prompts to connect your Stripe account.
+3. Run `npm run stripe:listen` to start the Stripe CLI.
+4. In your .env file, add the following environment variables:
+   - `STRIPE_PK`
+   - `STRIPE_SK`
+   - `STRIPE_WEBHOOK_SECRET` - The webhook secret provided by the Stripe CLI.
+   - `STRIPE_PRICE_ID` - The price ID of your Stripe product.
 
 ### Testing
 
