@@ -13,14 +13,13 @@ const Messages = () => {
   const utils = trpc.useContext();
 
   const deleteMessage = trpc.guestbook.deleteMessage.useMutation({
+    // refetch messages after a message is deleted
     async onSuccess() {
-      // refetches messages after a message is deleted
       await utils.guestbook.getAll.invalidate();
     },
   });
 
   const updateMessage = trpc.guestbook.updateMessage.useMutation({
-    // refetches messages after a message is updated
     async onSuccess() {
       await utils.guestbook.getAll.invalidate();
     },
@@ -95,10 +94,6 @@ const Messages = () => {
       {deleteMessage.error && (
         <p>Something went wrong! {deleteMessage.error.message}</p>
       )}
-
-      {/* 
-      The modal that opens when you click on a message:
-      */}
       <ReactModal
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 top-0 left-0"
         className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6"
@@ -107,9 +102,6 @@ const Messages = () => {
       >
         <div>
           {messages?.map((msg, index) => {
-            /*
-            display just the message that was clicked by checking the id:
-            */
             return msg.id === messageId ? (
               <div key={index}>
                 <form

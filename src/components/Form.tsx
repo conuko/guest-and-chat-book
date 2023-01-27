@@ -7,7 +7,7 @@ const Form = () => {
   const [message, setMessage] = useState("");
   const utils = trpc.useContext();
   const postMessage = trpc.guestbook.postMessage.useMutation({
-    // refetches messages after a message is added
+    // refetch messages after a message is added
     async onSuccess() {
       await utils.guestbook.getAll.invalidate();
     },

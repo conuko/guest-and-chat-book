@@ -10,7 +10,7 @@ import {
 } from "../../server/stripe/stripe-webhook-handlers";
 import { stripe } from "../../server/stripe/client";
 
-// Stripe requires the raw body to construct the event.
+// Stripe requires the raw body to construct the event:
 export const config = {
   api: {
     bodyParser: false,

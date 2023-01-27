@@ -2,10 +2,6 @@ import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const guestbookRouter = router({
-  /* 
-  A tRPC mutation that uses zod to validate the input and has an async
-  function that runs a single prisma query to create a new row in the Guestbook table.
-  */
   postMessage: protectedProcedure
     .input(
       z.object({
@@ -28,7 +24,6 @@ export const guestbookRouter = router({
       }
     }),
 
-  // Query to get all messages from the guestbook
   getAll: protectedProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.guestbook.findMany({
@@ -47,7 +42,6 @@ export const guestbookRouter = router({
     }
   }),
 
-  // Mutation to delete a message from the guestbook
   deleteMessage: protectedProcedure
     .input(
       z.object({
@@ -65,7 +59,6 @@ export const guestbookRouter = router({
       }
     }),
 
-  // Mutation to update a message from the guestbook
   updateMessage: protectedProcedure
     .input(
       z.object({
