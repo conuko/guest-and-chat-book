@@ -17,7 +17,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. To get started, clone the repository and run `npm install` in the root.
 2. Copy `.env.example`, rename it to `.env`.
-3. `DATABASE_URL` is the connection string to your database. Just use `DATABASE_URL=postgresql://conuko:conuko@localhost:5433/guest_and_chat_book` for now.
+3. `DATABASE_URL` is the connection string to your database. Just use `DATABASE_URL=mysql://root:password@localhost:3306/testdb` for now.
 4. For authentication paste your Discord client ID and secret in `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` (same goes for GitHub). You can get these from the [Discord Developer Portal](https://discord.com/developers/applications).
 5. Run `npm run docker:up` to start the database.
 6. Run `npx prisma db push` to push the schema to your database.
@@ -80,5 +80,6 @@ Please refer to the [Vercel documentation](https://vercel.com/docs/concepts/depl
 - [TypeScript](https://www.typescriptlang.org)
 - [Vercel](https://vercel.com)
 - [Docker](https://www.docker.com)
-- [PostgreSQL](https://www.postgresql.org)
+- [MySQL](https://www.mysql.com)
+- [Stripe](https://stripe.com)
 - [Vitest](https://vitest.dev)

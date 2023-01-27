@@ -4,12 +4,16 @@ version: "3.9"
 # The containers that compose the project
 services:
   db:
-    image: postgres
+    image: mysql
     restart: always
-    container_name: guest-and-chat-book-db
     ports:
-      - "5433:5432"
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      POSTGRES_USER: conuko
-      POSTGRES_PASSWORD: conuko
-      POSTGRES_DB: guest_and_chat_book
+      MYSQL_DATABASE: testdb
+      MYSQL_ROOT_PASSWORD: password
+volumes:
+  db:
+    driver: local
