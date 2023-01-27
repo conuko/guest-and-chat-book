@@ -82,7 +82,7 @@ const User: NextPage = () => {
             <Link href="/">Return</Link>
           </button>
         </div>
-        <div className="mt-10">
+        <div className="mt-10 mb-10">
           <Image
             className="mb-4"
             src={`${session.user?.image}`}
@@ -90,28 +90,33 @@ const User: NextPage = () => {
             height={48}
             alt="User Image"
           ></Image>
-          <p>
+          <div>
             Username: <p className="text-yellow-200">{session.user?.name}</p>
-          </p>
-          <p>
-            Email: <p className="text-yellow-200">{session.user?.email}</p>
-          </p>
-          <SignoutButton />
+          </div>
+          <div>
+            Email:{" "}
+            <p className="mb-10 text-yellow-200">{session.user?.email}</p>
+          </div>
           {!isLoading && subscriptionStatus !== null && (
             <>
-              <p className="text-xl text-gray-700">
-                Your subscription is {subscriptionStatus}.
-              </p>
+              <div className="mt-5 mb-2 flex flex-col gap-2 text-xl">
+                <p>
+                  {subscriptionStatus === "active" &&
+                    "✅ You are subscribed ✅"}
+                </p>
+                <p>Your subscription is {subscriptionStatus}.</p>
+              </div>
               <ManageBillingButton />
             </>
           )}
           {!isLoading && subscriptionStatus === null && (
             <>
-              <p className="text-xl text-gray-700">You are not subscribed!!!</p>
+              <p className="mt-5 mb-2 text-xl">⛔ You are not subscribed ⛔</p>
               <UpgradeButton />
             </>
           )}
         </div>
+        <SignoutButton />
       </div>
     </main>
   );

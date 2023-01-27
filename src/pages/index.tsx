@@ -4,9 +4,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Messages from "../components/Messages";
 import Form from "../components/Form";
 import Link from "next/link";
+import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
+
+  const { data: subscriptionStatus, isLoading } =
+    trpc.user.subscriptionStatus.useQuery();
 
   if (status === "loading") {
     return <main>Loading...</main>;
@@ -35,12 +39,30 @@ const Home: NextPage = () => {
                 Logout
               </button>
             </div>
-            <div className="pt-6">
-              <Form />
-            </div>
-            <div className="pt-10">
-              <Messages />
-            </div>
+            {!isLoading && subscriptionStatus !== null && (
+              <div>
+                <div className="pt-6">
+                  <Form />
+                </div>
+                <div className="pt-10">
+                  <Messages />
+                </div>
+              </div>
+            )}
+            {!isLoading && subscriptionStatus === null && (
+              <div className="pt-6">
+                <p className="text-center">
+                  You need to{" "}
+                  <Link
+                    className="text-yellow-200 hover:text-yellow-400"
+                    href="/user"
+                  >
+                    subscribe
+                  </Link>{" "}
+                  to post messages!
+                </p>
+              </div>
+            )}
           </>
         ) : (
           <div>
