@@ -67,7 +67,7 @@ const Form = () => {
           <Link className="text-yellow-200 hover:text-yellow-400" href="/user">
             subscription
           </Link>{" "}
-          to post messages.
+          to post or edit messages.
         </p>
       </div>
     );
