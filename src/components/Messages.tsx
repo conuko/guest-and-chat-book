@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Messages = () => {
   const { data: messages, isLoading } = trpc.guestbook.getAll.useQuery();
+  const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [messageId, setMessageId] = useState("");
@@ -54,10 +55,11 @@ const Messages = () => {
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
         /* 
-        if the message belongs to the user,
+        if the message belongs to the subscribed user,
         make it possible to click and edit message and show delete button:
         */
-        return msg.userId === session?.user?.id ? (
+        return msg.userId === session?.user?.id &&
+          subscriptionStatus === "active" ? (
           <div
             className="flex cursor-pointer items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6 hover:border-zinc-500"
             key={index}
