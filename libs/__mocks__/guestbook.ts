@@ -1,4 +1,5 @@
 import prisma from "./prisma";
+import { z } from "zod";
 
 interface Guestbook {
   id?: string;
@@ -8,10 +9,24 @@ interface Guestbook {
   createdAt?: Date;
 }
 
+const guestbookSchema = z.object({
+  name: z.string().min(1),
+  message: z.string().min(5).max(100),
+  userId: z.string(),
+});
+
 export async function postMessage(guestbook: Guestbook) {
-  return await prisma.guestbook.create({
-    data: guestbook,
-  });
+  try {
+    return await prisma.guestbook.create({
+      data: {
+        name: guestbookSchema.parse(guestbook).name,
+        message: guestbookSchema.parse(guestbook).message,
+        userId: guestbookSchema.parse(guestbook).userId,
+      },
+    });
+  } catch (error) {
+    return new Error("Invalid input");
+  }
 }
 
 export async function getAll() {
