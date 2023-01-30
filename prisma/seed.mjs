@@ -3,6 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export async function seed() {
+  await prisma.user.deleteMany();
+  await prisma.guestbook.deleteMany();
+
   await prisma.user.createMany({
     data: [
       {
