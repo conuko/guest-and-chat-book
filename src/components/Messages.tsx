@@ -4,7 +4,8 @@ import ReactModal from "react-modal";
 import { useState } from "react";
 
 const Messages = () => {
-  const { data: messages, isLoading } = trpc.guestbook.getAll.useQuery();
+  const { data: messages, isLoading } =
+    trpc.guestbook.getAllMessages.useQuery();
   const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -16,13 +17,13 @@ const Messages = () => {
   const deleteMessage = trpc.guestbook.deleteMessage.useMutation({
     // refetch messages after a message is deleted
     async onSuccess() {
-      await utils.guestbook.getAll.invalidate();
+      await utils.guestbook.getAllMessages.invalidate();
     },
   });
 
   const updateMessage = trpc.guestbook.updateMessage.useMutation({
     async onSuccess() {
-      await utils.guestbook.getAll.invalidate();
+      await utils.guestbook.getAllMessages.invalidate();
     },
   });
 

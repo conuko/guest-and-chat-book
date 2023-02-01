@@ -30,7 +30,7 @@ export async function postMessage(guestbook: Guestbook) {
   }
 }
 
-export async function getAll() {
+export async function getAllMessages() {
   try {
     return await prisma.guestbook.findMany({
       select: {

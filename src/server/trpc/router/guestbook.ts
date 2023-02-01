@@ -25,7 +25,7 @@ export const guestbookRouter = router({
       }
     }),
 
-  getAll: protectedProcedure.query(async ({ ctx }) => {
+  getAllMessages: protectedProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.guestbook.findMany({
         select: {
