@@ -93,7 +93,6 @@ test("deleteMessage mutation with invalid input should throw an error", async ()
   );
 });
 
-// update message test
 test("updateMessage mutation with valid input should update the message", async () => {
   const message = {
     id: "1",
@@ -114,4 +113,11 @@ test("updateMessage mutation with valid input should update the message", async 
     message: "Hello to the new World",
     createdAt: new Date(),
   });
+});
+
+test("updateMessage mutation with invalid input should throw an error", async () => {
+  prismaMock.guestbook.update.mockRejectedValue(new Error("Message not found"));
+  await expect(
+    updateMessage({ id: "300", message: "Hello this is a failed message" })
+  ).resolves.toEqual(new Error("Message not found"));
 });

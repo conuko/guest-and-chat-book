@@ -10,6 +10,7 @@ interface Guestbook {
 }
 
 const guestbookSchema = z.object({
+  id: z.string().optional(),
   name: z.string().min(1),
   message: z.string().min(5).max(100),
   userId: z.string(),
@@ -64,8 +65,12 @@ export async function updateMessage({
   id: string;
   message: string;
 }) {
-  return await prisma.guestbook.update({
-    where: { id },
-    data: { message },
-  });
+  try {
+    return await prisma.guestbook.update({
+      where: { id },
+      data: { message },
+    });
+  } catch (error) {
+    return new Error("Message not found");
+  }
 }
