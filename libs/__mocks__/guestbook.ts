@@ -30,23 +30,31 @@ export async function postMessage(guestbook: Guestbook) {
 }
 
 export async function getAll() {
-  return await prisma.guestbook.findMany({
-    select: {
-      id: true,
-      name: true,
-      userId: true,
-      message: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  try {
+    return await prisma.guestbook.findMany({
+      select: {
+        id: true,
+        name: true,
+        userId: true,
+        message: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+  } catch (error) {
+    return new Error("No messages found");
+  }
 }
 
 export async function deleteMessage(id: string) {
-  return await prisma.guestbook.delete({
-    where: { id },
-  });
+  try {
+    return await prisma.guestbook.delete({
+      where: { id },
+    });
+  } catch (error) {
+    return new Error("Message not found");
+  }
 }
 
 export async function updateMessage({

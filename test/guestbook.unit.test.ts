@@ -66,6 +66,13 @@ test("getAll query should return all messages", async () => {
   expect(allMessages).toStrictEqual(messages);
 });
 
+test("getAll query should return an error if no messages are found", async () => {
+  prismaMock.guestbook.findMany.mockRejectedValue(
+    new Error("No messages found")
+  );
+  await expect(getAll()).resolves.toEqual(new Error("No messages found"));
+});
+
 test("deleteMessage mutation with valid input should delete the message", async () => {
   const message = {
     id: "1",
@@ -81,7 +88,9 @@ test("deleteMessage mutation with valid input should delete the message", async 
 
 test("deleteMessage mutation with invalid input should throw an error", async () => {
   prismaMock.guestbook.delete.mockRejectedValue(new Error("Message not found"));
-  await expect(deleteMessage("3")).rejects.toThrow("Message not found");
+  await expect(deleteMessage("3")).resolves.toEqual(
+    new Error("Message not found")
+  );
 });
 
 // update message test
