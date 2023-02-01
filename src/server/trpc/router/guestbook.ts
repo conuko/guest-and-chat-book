@@ -21,6 +21,7 @@ export const guestbookRouter = router({
         });
       } catch (error) {
         console.log(error);
+        throw new Error(error as string);
       }
     }),
 
@@ -39,6 +40,7 @@ export const guestbookRouter = router({
       });
     } catch (error) {
       console.log(error);
+      throw new Error(error as string);
     }
   }),
 
@@ -56,6 +58,7 @@ export const guestbookRouter = router({
         });
       } catch (error) {
         console.log(error);
+        throw new Error(error as string);
       }
     }),
 
@@ -75,6 +78,7 @@ export const guestbookRouter = router({
         });
       } catch (error) {
         console.log(error);
+        throw new Error(error as string);
       }
     }),
 });
