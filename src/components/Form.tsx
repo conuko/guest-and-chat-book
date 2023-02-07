@@ -15,7 +15,7 @@ const Form = () => {
   const postMessage = trpc.guestbook.postMessage.useMutation({
     // refetch messages after a message is added
     async onSuccess() {
-      await utils.guestbook.getAll.invalidate();
+      await utils.guestbook.getAllMessages.invalidate();
     },
   });
 

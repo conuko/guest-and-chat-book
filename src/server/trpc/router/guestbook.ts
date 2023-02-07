@@ -6,8 +6,8 @@ export const guestbookRouter = router({
     .input(
       z.object({
         userId: z.string().cuid(),
-        name: z.string(),
-        message: z.string(),
+        name: z.string().min(1),
+        message: z.string().min(5).max(100),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -21,10 +21,11 @@ export const guestbookRouter = router({
         });
       } catch (error) {
         console.log(error);
+        throw new Error(error as string);
       }
     }),
 
-  getAll: protectedProcedure.query(async ({ ctx }) => {
+  getAllMessages: protectedProcedure.query(async ({ ctx }) => {
     try {
       return await ctx.prisma.guestbook.findMany({
         select: {
@@ -39,6 +40,7 @@ export const guestbookRouter = router({
       });
     } catch (error) {
       console.log(error);
+      throw new Error(error as string);
     }
   }),
 
@@ -56,6 +58,7 @@ export const guestbookRouter = router({
         });
       } catch (error) {
         console.log(error);
+        throw new Error(error as string);
       }
     }),
 
@@ -63,7 +66,7 @@ export const guestbookRouter = router({
     .input(
       z.object({
         id: z.string().cuid(),
-        message: z.string(),
+        message: z.string().min(5).max(100),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -75,6 +78,7 @@ export const guestbookRouter = router({
         });
       } catch (error) {
         console.log(error);
+        throw new Error(error as string);
       }
     }),
 });
