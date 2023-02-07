@@ -37,6 +37,11 @@ These instructions will get you a copy of the project up and running on your loc
    - `STRIPE_SK`
    - `STRIPE_WEBHOOK_SECRET` - The webhook secret provided by the Stripe CLI.
    - `STRIPE_PRICE_ID` - The price ID of your Stripe product.
+5. To test Stripe you can use the following test card numbers:
+   - `4242 4242 4242 4242` - A successful payment.
+   - `4000 0000 0000 0002` - Declined payment.
+   - `4000 0000 0000 9995` - Declined payment, insufficient funds.
+   - For more test card numbers, refer to the [Stripe documentation](https://stripe.com/docs/testing#cards).
 
 ### Testing
 
