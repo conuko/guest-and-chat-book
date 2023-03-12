@@ -28,6 +28,17 @@ const Messages = () => {
     },
   });
 
+  const likeMessage = trpc.guestbook.likeMessage.useMutation({
+    async onSuccess() {
+      await utils.guestbook.getAllMessages.invalidate();
+    },
+  });
+  const unlikeMessage = trpc.guestbook.unlikeMessage.useMutation({
+    async onSuccess() {
+      await utils.guestbook.getAllMessages.invalidate();
+    },
+  });
+
   const handleDelete = async (id: string) => {
     deleteMessage.mutate({ id: id });
   };
@@ -56,6 +67,7 @@ const Messages = () => {
   return (
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
+        const isLiked = msg.likes.length > 0;
         /* 
         if the message belongs to the subscribed user,
         make it possible to click and edit message and show delete button:
@@ -93,9 +105,16 @@ const Messages = () => {
               <span className="text-gray-400">- {msg.name}</span>
               <div className="mt-4 flex items-center">
                 <AiFillHeart
-                  //color="red"
+                  color={isLiked ? "red" : "gray"}
                   size="1.5rem"
-                  onClick={() => console.log("Liked Guestbook Post")}
+                  cursor="pointer"
+                  onClick={() => {
+                    if (isLiked) {
+                      unlikeMessage.mutate({ id: msg.id });
+                    } else {
+                      likeMessage.mutate({ id: msg.id });
+                    }
+                  }}
                 />
                 <span className="p-1 text-sm text-gray-400">{10}</span>
               </div>
