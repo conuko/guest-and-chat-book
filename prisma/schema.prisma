@@ -71,6 +71,7 @@ model User {
 model Guestbook {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
     name      String
     message   String   @db.VarChar(100)
     user      User     @relation(fields: [userId], references: [id])
