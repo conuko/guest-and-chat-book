@@ -81,4 +81,47 @@ export const guestbookRouter = router({
         throw new Error(error as string);
       }
     }),
+
+  likeMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        userId: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id, userId } = input;
+      try {
+        await ctx.prisma.like.create({
+          data: {
+            userId,
+            guestbookId: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
+
+  unlikeMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        userId: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      try {
+        await ctx.prisma.like.delete({
+          where: {
+            id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
 });
