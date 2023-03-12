@@ -2,6 +2,7 @@ import { trpc } from "../utils/trpc";
 import { useSession } from "next-auth/react";
 import ReactModal from "react-modal";
 import { useState } from "react";
+import { AiFillHeart } from "react-icons/ai";
 
 const Messages = () => {
   const { data: messages, isLoading } =
@@ -90,6 +91,14 @@ const Messages = () => {
             <div>
               <p>{msg.message}</p>
               <span className="text-gray-400">- {msg.name}</span>
+              <div className="mt-4 flex items-center">
+                <AiFillHeart
+                  //color="red"
+                  size="1.5rem"
+                  onClick={() => console.log("Liked Guestbook Post")}
+                />
+                <span className="p-1 text-sm text-gray-400">{10}</span>
+              </div>
             </div>
           </div>
         );
