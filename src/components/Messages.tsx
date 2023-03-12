@@ -7,6 +7,7 @@ import { AiFillHeart } from "react-icons/ai";
 const Messages = () => {
   const { data: messages, isLoading } =
     trpc.guestbook.getAllMessages.useQuery();
+  console.log(messages);
   const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -67,7 +68,7 @@ const Messages = () => {
   return (
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
-        const isLiked = msg.likes.length > 0;
+        const isLiked = msg._count.likes > 0;
         /* 
         if the message belongs to the subscribed user,
         make it possible to click and edit message and show delete button:
@@ -82,6 +83,14 @@ const Messages = () => {
             <div>
               <p>{msg.message}</p>
               <span className="text-gray-400">- {msg.name}</span>
+              <div className="mt-4 flex items-center">
+                <AiFillHeart color={isLiked ? "red" : "gray"} size="1.5rem" />
+                {isLiked && (
+                  <span className="p-1 text-sm text-gray-400">
+                    {msg._count?.likes}
+                  </span>
+                )}
+              </div>
             </div>
             <div>
               <button
@@ -116,7 +125,11 @@ const Messages = () => {
                     }
                   }}
                 />
-                <span className="p-1 text-sm text-gray-400">{10}</span>
+                {isLiked && (
+                  <span className="p-1 text-sm text-gray-400">
+                    {msg._count?.likes}
+                  </span>
+                )}
               </div>
             </div>
           </div>

@@ -41,6 +41,11 @@ export const guestbookRouter = router({
               userId: true,
             },
           },
+          _count: {
+            select: {
+              likes: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
