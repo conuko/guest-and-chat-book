@@ -33,6 +33,14 @@ export const guestbookRouter = router({
           name: true,
           userId: true,
           message: true,
+          likes: {
+            where: {
+              userId: ctx.session.user.id,
+            },
+            select: {
+              userId: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
@@ -86,11 +94,11 @@ export const guestbookRouter = router({
     .input(
       z.object({
         id: z.string().cuid(),
-        userId: z.string().cuid(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const { id, userId } = input;
+      const { id } = input;
+      const userId = ctx.session.user.id;
       try {
         await ctx.prisma.like.create({
           data: {
@@ -108,17 +116,17 @@ export const guestbookRouter = router({
     .input(
       z.object({
         id: z.string().cuid(),
-        userId: z.string().cuid(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const { id } = input;
+      const userId = ctx.session.user.id;
       try {
         await ctx.prisma.like.delete({
           where: {
             guestbookId_userId: {
               guestbookId: id,
-              userId: input.userId,
+              userId: userId,
             },
           },
         });
