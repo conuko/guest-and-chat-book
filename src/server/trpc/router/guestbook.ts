@@ -94,7 +94,7 @@ export const guestbookRouter = router({
       try {
         await ctx.prisma.like.create({
           data: {
-            userId,
+            userId: userId,
             guestbookId: id,
           },
         });
@@ -116,7 +116,10 @@ export const guestbookRouter = router({
       try {
         await ctx.prisma.like.delete({
           where: {
-            id,
+            guestbookId_userId: {
+              guestbookId: id,
+              userId: input.userId,
+            },
           },
         });
       } catch (error) {
