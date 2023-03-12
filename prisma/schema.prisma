@@ -15,7 +15,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-// Necessary for Next auth
+// Account, Session and VerificationToken are necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -45,6 +45,14 @@ model Session {
   @@index([userId])
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -59,25 +67,6 @@ model User {
   stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
 }
 
-// https://stripe.com/docs/api/subscriptions/object#subscription_object-status
-enum StripeSubscriptionStatus {
-  incomplete
-  incomplete_expired
-  trialing
-  active
-  past_due
-  canceled
-  unpaid
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
 model Guestbook {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
@@ -87,6 +76,18 @@ model Guestbook {
     userId    String
 
     @@index([userId])
+}
+
+// StripeSubscriptionStatus and StripeEvent are necessary for Stripe:
+// https://stripe.com/docs/api/subscriptions/object#subscription_object-status
+enum StripeSubscriptionStatus {
+  incomplete
+  incomplete_expired
+  trialing
+  active
+  past_due
+  canceled
+  unpaid
 }
 
 model StripeEvent {
