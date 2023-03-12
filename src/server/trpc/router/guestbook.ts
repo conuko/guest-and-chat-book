@@ -93,7 +93,7 @@ export const guestbookRouter = router({
   likeMessage: protectedProcedure
     .input(
       z.object({
-        id: z.string().cuid(),
+        id: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -115,7 +115,7 @@ export const guestbookRouter = router({
   unlikeMessage: protectedProcedure
     .input(
       z.object({
-        id: z.string().cuid(),
+        id: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
