@@ -7,7 +7,6 @@ import { AiFillHeart } from "react-icons/ai";
 const Messages = () => {
   const { data: messages, isLoading } =
     trpc.guestbook.getAllMessages.useQuery();
-  console.log(messages);
   const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
