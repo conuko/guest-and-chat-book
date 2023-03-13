@@ -2,6 +2,7 @@ import { trpc } from "../utils/trpc";
 import { useSession } from "next-auth/react";
 import ReactModal from "react-modal";
 import { useState } from "react";
+import { AiFillHeart } from "react-icons/ai";
 
 const Messages = () => {
   const { data: messages, isLoading } =
@@ -22,6 +23,17 @@ const Messages = () => {
   });
 
   const updateMessage = trpc.guestbook.updateMessage.useMutation({
+    async onSuccess() {
+      await utils.guestbook.getAllMessages.invalidate();
+    },
+  });
+
+  const likeMessage = trpc.guestbook.likeMessage.useMutation({
+    async onSuccess() {
+      await utils.guestbook.getAllMessages.invalidate();
+    },
+  });
+  const unlikeMessage = trpc.guestbook.unlikeMessage.useMutation({
     async onSuccess() {
       await utils.guestbook.getAllMessages.invalidate();
     },
@@ -55,6 +67,7 @@ const Messages = () => {
   return (
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
+        const isLiked = msg._count.likes > 0;
         /* 
         if the message belongs to the subscribed user,
         make it possible to click and edit message and show delete button:
@@ -69,6 +82,14 @@ const Messages = () => {
             <div>
               <p>{msg.message}</p>
               <span className="text-gray-400">- {msg.name}</span>
+              <div className="mt-4 flex items-center">
+                <AiFillHeart color={isLiked ? "red" : "gray"} size="1.5rem" />
+                {isLiked && (
+                  <span className="p-1 text-sm text-gray-400">
+                    {msg._count?.likes}
+                  </span>
+                )}
+              </div>
             </div>
             <div>
               <button
@@ -90,6 +111,25 @@ const Messages = () => {
             <div>
               <p>{msg.message}</p>
               <span className="text-gray-400">- {msg.name}</span>
+              <div className="mt-4 flex items-center">
+                <AiFillHeart
+                  color={isLiked ? "red" : "gray"}
+                  size="1.5rem"
+                  cursor="pointer"
+                  onClick={() => {
+                    if (isLiked) {
+                      unlikeMessage.mutate({ id: msg.id });
+                    } else {
+                      likeMessage.mutate({ id: msg.id });
+                    }
+                  }}
+                />
+                {isLiked && (
+                  <span className="p-1 text-sm text-gray-400">
+                    {msg._count?.likes}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         );

@@ -15,7 +15,7 @@ datasource db {
   relationMode = "prisma"
 }
 
-// Necessary for Next auth
+// Account, Session and VerificationToken are necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -45,6 +45,14 @@ model Session {
   @@index([userId])
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -54,11 +62,41 @@ model User {
   accounts      Account[]
   sessions      Session[]
   guestbooks    Guestbook[]
+  likes         Like[]
   stripeCustomerId         String? // link to Stripe customer object in Stripe's system
   stripeSubscriptionId     String? // link to Stripe subscription object for user in Stripe's system
   stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
 }
 
+model Guestbook {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name      String
+    message   String   @db.VarChar(100)
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+    likes     Like[]
+
+    @@index([userId])
+}
+
+model Like {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    guestbook Guestbook @relation(fields: [guestbookId], references: [id])
+    guestbookId String
+    user      User     @relation(fields: [userId], references: [id])
+    userId    String
+
+    @@index([guestbookId])
+    @@index([userId])
+    // This is a unique composite index, which means that a user can only like a guestbook once
+    @@unique([guestbookId, userId])
+}
+
+// StripeSubscriptionStatus and StripeEvent are necessary for Stripe:
 // https://stripe.com/docs/api/subscriptions/object#subscription_object-status
 enum StripeSubscriptionStatus {
   incomplete
@@ -68,25 +106,6 @@ enum StripeSubscriptionStatus {
   past_due
   canceled
   unpaid
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-}
-
-model Guestbook {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    name      String
-    message   String   @db.VarChar(100)
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String
-
-    @@index([userId])
 }
 
 model StripeEvent {

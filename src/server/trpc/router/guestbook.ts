@@ -33,6 +33,19 @@ export const guestbookRouter = router({
           name: true,
           userId: true,
           message: true,
+          likes: {
+            where: {
+              userId: ctx.session.user.id,
+            },
+            select: {
+              userId: true,
+            },
+          },
+          _count: {
+            select: {
+              likes: true,
+            },
+          },
         },
         orderBy: {
           createdAt: "desc",
@@ -75,6 +88,52 @@ export const guestbookRouter = router({
         await ctx.prisma.guestbook.update({
           where: { id },
           data: { message },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
+
+  likeMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      const userId = ctx.session.user.id;
+      try {
+        await ctx.prisma.like.create({
+          data: {
+            userId: userId,
+            guestbookId: id,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
+
+  unlikeMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      const userId = ctx.session.user.id;
+      try {
+        await ctx.prisma.like.delete({
+          where: {
+            guestbookId_userId: {
+              guestbookId: id,
+              userId: userId,
+            },
+          },
         });
       } catch (error) {
         console.log(error);
