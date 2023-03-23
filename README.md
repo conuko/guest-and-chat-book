@@ -65,13 +65,15 @@ This project is deployed on [Vercel](https://vercel.com). Here is a step by step
 
 1. Create a new project on Vercel and link it to your GitHub repository.
 2. Add the following environment variables to your Vercel project:
-   - `DATABASE_URL` - Your database connection string (You can use [Railway](https://railway.app/) to get a free online PostgreSQL database in under 5 minutes.)
+   - `DATABASE_URL` - Your database connection string (You can use [Planet Scale](https://planetscale.com/) to get a free online MySQL database in under 5 minutes.)
    - `DISCORD_CLIENT_ID` - Your Discord client ID.
    - `DISCORD_CLIENT_SECRET` - Your Discord client secret.
    - `NEXTAUTH_SECRET` - A secret for NextAuth.js.
    - `GITHUB_SECRET` - A GitHub client secret.
    - `GITHUB_ID` - A GitHub client ID.
 3. Deploy your project to Vercel.
+4. Create a `.env.production` file in the root of your project and add the `DATABASE_URL` environment variable of your production database (e.g. the database url from your database hosted on Planet Scale).
+5. You can now run `npm run prisma:migrate:deploy:prod` to apply migrations to your production database.
 
 Please refer to the [Vercel documentation](https://vercel.com/docs/concepts/deployments/overview) for more information on how to deploy your Next.js project to Vercel.
 

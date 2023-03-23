@@ -12,6 +12,7 @@
     "test": "vitest",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down -v",
+    "prisma:migrate:deploy:prod": "dotenv -e .env.production prisma migrate deploy",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/stripe-webhook --latest"
   },
   "dependencies": {
