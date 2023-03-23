@@ -9,6 +9,7 @@
     "db:seed": "ts-node prisma/seed.mjs",
     "lint": "next lint",
     "start": "next start",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build",
     "test": "vitest",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down -v",
