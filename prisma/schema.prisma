@@ -59,7 +59,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  address       UserAdress? @relation("UserHasAdress")
+  address       UserAddress? @relation("UserHasAdress")
   accounts      Account[]
   sessions      Session[]
   guestbooks    Guestbook[]
@@ -69,7 +69,7 @@ model User {
   stripeSubscriptionStatus StripeSubscriptionStatus? // status of user's subscription to determine access to services
 }
 
-model UserAdress {
+model UserAddress {
   id       String   @id @default(cuid())
   street   String?
   city     String?
