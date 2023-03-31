@@ -52,4 +52,17 @@ export const userRouter = router({
         throw new Error(error as string);
       }
     }),
+  getUserAddress: protectedProcedure.query(async ({ ctx }) => {
+    const { session, prisma } = ctx;
+    try {
+      return await prisma.userAddress.findMany({
+        where: {
+          userId: session.user?.id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error as string);
+    }
+  }),
 });
