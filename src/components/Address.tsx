@@ -1,12 +1,24 @@
 import { trpc } from "../utils/trpc";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Address = () => {
+  const { data: address } = trpc.user.getUserAddress.useQuery();
+
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [country, setCountry] = useState("");
   const [phone, setPhone] = useState("");
+
+  useEffect(() => {
+    if (address) {
+      setStreet(address.street ?? "");
+      setCity(address.city ?? "");
+      setZip(address.zip ?? "");
+      setCountry(address.country ?? "");
+      setPhone(address.phone ?? "");
+    }
+  }, [address]);
 
   const utils = trpc.useContext();
 
@@ -17,23 +29,35 @@ const Address = () => {
     },
   });
 
+  const updateUserAddress = trpc.user.updateUserAddress.useMutation({
+    async onSuccess() {
+      await utils.user.getUserAddress.invalidate();
+    },
+  });
+
   return (
     <form
       className="flex gap-2"
       onSubmit={(event) => {
         event.preventDefault();
-        addUserAddress.mutate({
-          street,
-          city,
-          zip,
-          country,
-          phone,
-        });
-        setStreet("");
-        setCity("");
-        setZip("");
-        setCountry("");
-        setPhone("");
+
+        if (address) {
+          updateUserAddress.mutate({
+            street,
+            city,
+            zip,
+            country,
+            phone,
+          });
+        } else {
+          addUserAddress.mutate({
+            street,
+            city,
+            zip,
+            country,
+            phone,
+          });
+        }
       }}
     >
       <div className="flex flex-col gap-4">
