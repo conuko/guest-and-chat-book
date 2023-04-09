@@ -73,7 +73,8 @@ This project is deployed on [Vercel](https://vercel.com). Here is a step by step
    - `GITHUB_ID` - A GitHub client ID.
 3. Deploy your project to Vercel.
 4. Create a `.env.production` file in the root of your project and add the `DATABASE_URL` environment variable of your production database (e.g. the database url from your database hosted on Planet Scale).
-5. You can now run `npm run prisma:migrate:deploy:prod` to apply migrations to your production database.
+5. Run `npx prisma migrate dev` to to create a new migration.
+6. You can now run `npm run prisma:migrate:deploy:prod` to apply the latest migration to your production database.
 
 Please refer to the [Vercel documentation](https://vercel.com/docs/concepts/deployments/overview) for more information on how to deploy your Next.js project to Vercel.
 

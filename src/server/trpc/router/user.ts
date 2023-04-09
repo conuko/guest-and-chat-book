@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
 export const userRouter = router({
@@ -23,4 +24,78 @@ export const userRouter = router({
 
     return data.stripeSubscriptionStatus;
   }),
+
+  addUserAddress: protectedProcedure
+    .input(
+      z.object({
+        street: z.string().min(1),
+        city: z.string().min(1),
+        zip: z.string().min(1),
+        country: z.string().min(1),
+        phone: z.string().min(4),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { session, prisma } = ctx;
+      try {
+        await prisma.userAddress.create({
+          data: {
+            userId: session.user?.id,
+            street: input.street,
+            city: input.city,
+            zip: input.zip,
+            country: input.country,
+            phone: input.phone,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
+
+  getUserAddress: protectedProcedure.query(async ({ ctx }) => {
+    const { session, prisma } = ctx;
+    try {
+      return await prisma.userAddress.findFirst({
+        where: {
+          userId: session.user?.id,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error as string);
+    }
+  }),
+
+  updateUserAddress: protectedProcedure
+    .input(
+      z.object({
+        street: z.string().min(1),
+        city: z.string().min(1),
+        zip: z.string().min(1),
+        country: z.string().min(1),
+        phone: z.string().min(4),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { session, prisma } = ctx;
+      try {
+        await prisma.userAddress.update({
+          where: {
+            userId: session.user?.id,
+          },
+          data: {
+            street: input.street,
+            city: input.city,
+            zip: input.zip,
+            country: input.country,
+            phone: input.phone,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
 });
