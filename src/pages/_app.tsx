@@ -2,6 +2,7 @@ import { type AppType } from "next/app";
 import { type Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
 import { Raleway } from "@next/font/google";
+import { Toaster } from "react-hot-toast";
 
 import { trpc } from "../utils/trpc";
 
@@ -20,6 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
           font-family: ${raleway.style.fontFamily};
         }
       `}</style>
+      <Toaster position="bottom-center" />
       <Component {...pageProps} />
     </SessionProvider>
   );
