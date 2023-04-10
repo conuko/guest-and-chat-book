@@ -62,7 +62,6 @@ export const userRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -76,7 +75,6 @@ export const userRouter = router({
         },
       });
     } catch (error) {
-      console.log(error);
       throw new Error(error as string);
     }
   }),
@@ -116,7 +114,6 @@ export const userRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
