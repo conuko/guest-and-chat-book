@@ -2,6 +2,7 @@ import { trpc } from "../utils/trpc";
 import { useSession } from "next-auth/react";
 import ReactModal from "react-modal";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiFillHeart } from "react-icons/ai";
 
 const Messages = () => {
@@ -17,25 +18,39 @@ const Messages = () => {
 
   const deleteMessage = trpc.guestbook.deleteMessage.useMutation({
     // refetch messages after a message is deleted
-    async onSuccess() {
-      await utils.guestbook.getAllMessages.invalidate();
+    onSuccess() {
+      void utils.guestbook.getAllMessages.invalidate();
+      toast.success("Message deleted.");
+    },
+    onError() {
+      toast.error("Something went wrong. Failed to delete message.");
     },
   });
 
   const updateMessage = trpc.guestbook.updateMessage.useMutation({
-    async onSuccess() {
-      await utils.guestbook.getAllMessages.invalidate();
+    onSuccess() {
+      void utils.guestbook.getAllMessages.invalidate();
+      toast.success("Message updated.");
+    },
+    onError() {
+      toast.error("Something went wrong. Failed to edit message.");
     },
   });
 
   const likeMessage = trpc.guestbook.likeMessage.useMutation({
-    async onSuccess() {
-      await utils.guestbook.getAllMessages.invalidate();
+    onSuccess() {
+      void utils.guestbook.getAllMessages.invalidate();
+    },
+    onError() {
+      toast.error("Something went wrong. Failed to like message.");
     },
   });
   const unlikeMessage = trpc.guestbook.unlikeMessage.useMutation({
-    async onSuccess() {
-      await utils.guestbook.getAllMessages.invalidate();
+    onSuccess() {
+      void utils.guestbook.getAllMessages.invalidate();
+    },
+    onError() {
+      toast.error("Something went wrong. Failed to unlike message.");
     },
   });
 
