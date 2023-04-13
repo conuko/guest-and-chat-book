@@ -190,7 +190,11 @@ describe("The guestbook mutation updateMessage", () => {
 
 // delete all messages after each test
 afterAll(async () => {
-  const deleteAllMessages = prisma.guestbook.deleteMany();
-  await prisma.$transaction([deleteAllMessages]);
+  await prisma.$transaction([
+    prisma.like.deleteMany({
+      where: { guestbookId: { not: undefined } },
+    }),
+    prisma.guestbook.deleteMany(),
+  ]);
   await prisma.$disconnect();
 });

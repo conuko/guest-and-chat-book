@@ -99,7 +99,7 @@ model Like {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    guestbook Guestbook @relation(fields: [guestbookId], references: [id])
+    guestbook Guestbook @relation(fields: [guestbookId], references: [id], onDelete: Cascade)
     guestbookId String
     user      User     @relation(fields: [userId], references: [id])
     userId    String
