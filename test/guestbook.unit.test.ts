@@ -25,6 +25,7 @@ test("postMessage mutation with valid input should return the generated message"
     name: "Prisma Fan",
     message: "Hello World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
   prismaMock.guestbook.create.mockResolvedValue({ ...newMessage, id: "1" });
   const message = await postMessage(newMessage);
@@ -37,6 +38,7 @@ test("postMessage mutation with invalid input should throw an error", async () =
     name: "Prisma Fan",
     message: "",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
   prismaMock.guestbook.create.mockRejectedValue(new Error("Invalid input"));
   await expect(postMessage(newMessage)).resolves.toEqual(
@@ -52,6 +54,7 @@ test("getAllMessages query should return all messages", async () => {
       name: "Prisma Fan",
       message: "Hello World",
       createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: "2",
@@ -59,6 +62,7 @@ test("getAllMessages query should return all messages", async () => {
       name: "Prisma Fan",
       message: "Hello World",
       createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
   prismaMock.guestbook.findMany.mockResolvedValue(messages);
@@ -82,6 +86,7 @@ test("deleteMessage mutation with valid input should delete the message", async 
     name: "Prisma Fan",
     message: "Hello World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
   prismaMock.guestbook.delete.mockResolvedValue(message);
   const deletedMessage = await deleteMessage(message.id);
@@ -102,6 +107,7 @@ test("updateMessage mutation with valid input should update the message", async 
     name: "Prisma Fan",
     message: "Hello to the new World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
   prismaMock.guestbook.update.mockResolvedValue(message);
   const updatedMessage = await updateMessage({
@@ -114,6 +120,7 @@ test("updateMessage mutation with valid input should update the message", async 
     name: "Prisma Fan",
     message: "Hello to the new World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   });
 });
 
