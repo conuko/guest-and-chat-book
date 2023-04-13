@@ -7,6 +7,7 @@ interface Guestbook {
   message: string;
   userId: string;
   createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const guestbookSchema = z.object({
@@ -69,6 +70,46 @@ export async function updateMessage({
     return await prisma.guestbook.update({
       where: { id },
       data: { message },
+    });
+  } catch (error) {
+    return new Error("Message not found");
+  }
+}
+
+export async function likeMessage({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) {
+  try {
+    return await prisma.like.create({
+      data: {
+        userId: userId,
+        guestbookId: id,
+      },
+    });
+  } catch (error) {
+    return new Error("Message not found");
+  }
+}
+
+export async function unlikeMessage({
+  id,
+  userId,
+}: {
+  id: string;
+  userId: string;
+}) {
+  try {
+    return await prisma.like.delete({
+      where: {
+        guestbookId_userId: {
+          guestbookId: id,
+          userId: userId,
+        },
+      },
     });
   } catch (error) {
     return new Error("Message not found");
