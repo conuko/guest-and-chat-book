@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export async function seed() {
   await prisma.user.deleteMany();
-  await prisma.guestbook.deleteMany();
+  await prisma.post.deleteMany();
 
   await prisma.user.createMany({
     data: [
@@ -22,7 +22,7 @@ export async function seed() {
       },
     ],
   });
-  await prisma.guestbook.createMany({
+  await prisma.post.createMany({
     data: [
       {
         name: "Danger Dan",

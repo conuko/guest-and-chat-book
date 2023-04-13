@@ -1,13 +1,13 @@
 import { router } from "../trpc";
 import { authRouter } from "./auth";
-import { guestbookRouter } from "./guestbook";
+import { postRouter } from "./post";
 import { stripeRouter } from "./stripe";
 import { userRouter } from "./user";
 
 export const appRouter = router({
   stripe: stripeRouter,
   user: userRouter,
-  guestbook: guestbookRouter,
+  post: postRouter,
   auth: authRouter,
 });
 
