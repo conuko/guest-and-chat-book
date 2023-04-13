@@ -1,6 +1,7 @@
 import { trpc } from "../utils/trpc";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 import Link from "next/link";
 
 const Form = () => {
@@ -14,8 +15,12 @@ const Form = () => {
 
   const postMessage = trpc.guestbook.postMessage.useMutation({
     // refetch messages after a message is added
-    async onSuccess() {
-      await utils.guestbook.getAllMessages.invalidate();
+    onSuccess() {
+      void utils.guestbook.getAllMessages.invalidate();
+      toast.success("Message posted");
+    },
+    onError() {
+      toast.error("Failed to post message.");
     },
   });
 

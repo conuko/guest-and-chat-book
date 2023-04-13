@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
+const regexZip = /^[0-9]{5}$/;
+const regexPhone =
+  /^\+49(?:\d{8,11}|\(\d{1,6}\)\d{1,10}|\d{1,6}-\d{1,10}|\d{1,6}\s\d{1,10})$/;
+
 export const userRouter = router({
   subscriptionStatus: protectedProcedure.query(async ({ ctx }) => {
     const { session, prisma } = ctx;
@@ -28,11 +32,20 @@ export const userRouter = router({
   addUserAddress: protectedProcedure
     .input(
       z.object({
-        street: z.string().min(1),
-        city: z.string().min(1),
-        zip: z.string().min(1),
-        country: z.string().min(1),
-        phone: z.string().min(4),
+        street: z.string().min(2),
+        city: z.string().min(2),
+        zip: z
+          .string()
+          .min(2)
+          .regex(regexZip, "Must be a valid german zip code"),
+        country: z.string().min(2),
+        phone: z
+          .string()
+          .min(4)
+          .regex(
+            regexPhone,
+            "Must be a valid german phone number with country code +49"
+          ),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -49,7 +62,6 @@ export const userRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -63,7 +75,6 @@ export const userRouter = router({
         },
       });
     } catch (error) {
-      console.log(error);
       throw new Error(error as string);
     }
   }),
@@ -71,11 +82,20 @@ export const userRouter = router({
   updateUserAddress: protectedProcedure
     .input(
       z.object({
-        street: z.string().min(1),
-        city: z.string().min(1),
-        zip: z.string().min(1),
-        country: z.string().min(1),
-        phone: z.string().min(4),
+        street: z.string().min(2),
+        city: z.string().min(2),
+        zip: z
+          .string()
+          .min(2)
+          .regex(regexZip, "Must be a valid german zip code"),
+        country: z.string().min(2),
+        phone: z
+          .string()
+          .min(4)
+          .regex(
+            regexPhone,
+            "Must be a valid german phone number with country code +49"
+          ),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -94,7 +114,6 @@ export const userRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),

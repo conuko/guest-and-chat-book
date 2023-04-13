@@ -1,5 +1,6 @@
 import { trpc } from "../utils/trpc";
 import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 const Address = () => {
   const { data: address } = trpc.user.getUserAddress.useQuery();
@@ -24,14 +25,36 @@ const Address = () => {
 
   const addUserAddress = trpc.user.addUserAddress.useMutation({
     // refetch messages after a message is added
-    async onSuccess() {
-      await utils.user.getUserAddress.invalidate();
+    onSuccess() {
+      void utils.user.getUserAddress.invalidate();
+      toast.success("Address added");
+    },
+    onError(e) {
+      const errorMessageZip = e.data?.zodError?.fieldErrors.zip;
+      const errorMessagePhone = e.data?.zodError?.fieldErrors.phone;
+      const errorMessage = errorMessageZip || errorMessagePhone;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Failed to add address.");
+      }
     },
   });
 
   const updateUserAddress = trpc.user.updateUserAddress.useMutation({
-    async onSuccess() {
-      await utils.user.getUserAddress.invalidate();
+    onSuccess() {
+      void utils.user.getUserAddress.invalidate();
+      toast.success("Address updated.");
+    },
+    onError(e) {
+      const errorMessageZip = e.data?.zodError?.fieldErrors.zip;
+      const errorMessagePhone = e.data?.zodError?.fieldErrors.phone;
+      const errorMessage = errorMessageZip || errorMessagePhone;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Failed to update address.");
+      }
     },
   });
 
@@ -92,7 +115,7 @@ const Address = () => {
             value={zip}
             placeholder="Zip"
             minLength={2}
-            maxLength={100}
+            maxLength={5}
             onChange={(event) => setZip(event.target.value)}
             className="rounded-md border-2 border-zinc-800 bg-neutral-900 px-4 py-2 opacity-50 focus:opacity-100 focus:outline-none"
           />
@@ -112,7 +135,7 @@ const Address = () => {
         <div className="flex flex-col gap-2">
           <label htmlFor="phone">Phone</label>
           <input
-            type="text"
+            type="phone"
             value={phone}
             placeholder="Phone"
             minLength={2}
