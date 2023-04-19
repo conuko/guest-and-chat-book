@@ -1,5 +1,5 @@
 /* 
-This are unit tests for the functions of the guestbook trpc endpoint.
+This are unit tests for the functions of the post trpc endpoint.
 The functions are mocked using vitest's vi.mock() function.
 The mocked functions are imported from the __mocks__ folder.
 For more information about unit testing and mocking with prisma and vitest, see:
@@ -14,7 +14,7 @@ import {
   getAllMessages,
   deleteMessage,
   updateMessage,
-} from "../libs/__mocks__/guestbook";
+} from "../libs/__mocks__/post";
 import prismaMock from "../libs/__mocks__/prisma";
 
 vi.mock("../libs/prisma");
@@ -25,8 +25,9 @@ test("postMessage mutation with valid input should return the generated message"
     name: "Prisma Fan",
     message: "Hello World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
-  prismaMock.guestbook.create.mockResolvedValue({ ...newMessage, id: "1" });
+  prismaMock.post.create.mockResolvedValue({ ...newMessage, id: "1" });
   const message = await postMessage(newMessage);
   expect(message).toStrictEqual({ ...newMessage, id: "1" });
 });
@@ -37,8 +38,9 @@ test("postMessage mutation with invalid input should throw an error", async () =
     name: "Prisma Fan",
     message: "",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
-  prismaMock.guestbook.create.mockRejectedValue(new Error("Invalid input"));
+  prismaMock.post.create.mockRejectedValue(new Error("Invalid input"));
   await expect(postMessage(newMessage)).resolves.toEqual(
     new Error("Invalid input")
   );
@@ -52,6 +54,7 @@ test("getAllMessages query should return all messages", async () => {
       name: "Prisma Fan",
       message: "Hello World",
       createdAt: new Date(),
+      updatedAt: new Date(),
     },
     {
       id: "2",
@@ -59,17 +62,16 @@ test("getAllMessages query should return all messages", async () => {
       name: "Prisma Fan",
       message: "Hello World",
       createdAt: new Date(),
+      updatedAt: new Date(),
     },
   ];
-  prismaMock.guestbook.findMany.mockResolvedValue(messages);
+  prismaMock.post.findMany.mockResolvedValue(messages);
   const allMessages = await getAllMessages();
   expect(allMessages).toStrictEqual(messages);
 });
 
 test("getAllMessages query should return an error if no messages are found", async () => {
-  prismaMock.guestbook.findMany.mockRejectedValue(
-    new Error("No messages found")
-  );
+  prismaMock.post.findMany.mockRejectedValue(new Error("No messages found"));
   await expect(getAllMessages()).resolves.toEqual(
     new Error("No messages found")
   );
@@ -82,14 +84,15 @@ test("deleteMessage mutation with valid input should delete the message", async 
     name: "Prisma Fan",
     message: "Hello World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
-  prismaMock.guestbook.delete.mockResolvedValue(message);
+  prismaMock.post.delete.mockResolvedValue(message);
   const deletedMessage = await deleteMessage(message.id);
   expect(deletedMessage).toStrictEqual(message);
 });
 
 test("deleteMessage mutation with invalid input should throw an error", async () => {
-  prismaMock.guestbook.delete.mockRejectedValue(new Error("Message not found"));
+  prismaMock.post.delete.mockRejectedValue(new Error("Message not found"));
   await expect(deleteMessage("3")).resolves.toEqual(
     new Error("Message not found")
   );
@@ -102,8 +105,9 @@ test("updateMessage mutation with valid input should update the message", async 
     name: "Prisma Fan",
     message: "Hello to the new World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   };
-  prismaMock.guestbook.update.mockResolvedValue(message);
+  prismaMock.post.update.mockResolvedValue(message);
   const updatedMessage = await updateMessage({
     id: message.id,
     message: message.message,
@@ -114,11 +118,12 @@ test("updateMessage mutation with valid input should update the message", async 
     name: "Prisma Fan",
     message: "Hello to the new World",
     createdAt: new Date(),
+    updatedAt: new Date(),
   });
 });
 
 test("updateMessage mutation with invalid input should throw an error", async () => {
-  prismaMock.guestbook.update.mockRejectedValue(new Error("Message not found"));
+  prismaMock.post.update.mockRejectedValue(new Error("Message not found"));
   await expect(
     updateMessage({ id: "300", message: "Hello this is a failed message" })
   ).resolves.toEqual(new Error("Message not found"));

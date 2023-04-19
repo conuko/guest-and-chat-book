@@ -6,8 +6,7 @@ import { toast } from "react-hot-toast";
 import { AiFillHeart } from "react-icons/ai";
 
 const Messages = () => {
-  const { data: messages, isLoading } =
-    trpc.guestbook.getAllMessages.useQuery();
+  const { data: messages, isLoading } = trpc.post.getAllMessages.useQuery();
   const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -16,10 +15,10 @@ const Messages = () => {
 
   const utils = trpc.useContext();
 
-  const deleteMessage = trpc.guestbook.deleteMessage.useMutation({
+  const deleteMessage = trpc.post.deleteMessage.useMutation({
     // refetch messages after a message is deleted
     onSuccess() {
-      void utils.guestbook.getAllMessages.invalidate();
+      void utils.post.getAllMessages.invalidate();
       toast.success("Message deleted.");
     },
     onError() {
@@ -27,9 +26,9 @@ const Messages = () => {
     },
   });
 
-  const updateMessage = trpc.guestbook.updateMessage.useMutation({
+  const updateMessage = trpc.post.updateMessage.useMutation({
     onSuccess() {
-      void utils.guestbook.getAllMessages.invalidate();
+      void utils.post.getAllMessages.invalidate();
       toast.success("Message updated.");
     },
     onError() {
@@ -37,17 +36,17 @@ const Messages = () => {
     },
   });
 
-  const likeMessage = trpc.guestbook.likeMessage.useMutation({
+  const likeMessage = trpc.post.likeMessage.useMutation({
     onSuccess() {
-      void utils.guestbook.getAllMessages.invalidate();
+      void utils.post.getAllMessages.invalidate();
     },
     onError() {
       toast.error("Something went wrong. Failed to like message.");
     },
   });
-  const unlikeMessage = trpc.guestbook.unlikeMessage.useMutation({
+  const unlikeMessage = trpc.post.unlikeMessage.useMutation({
     onSuccess() {
-      void utils.guestbook.getAllMessages.invalidate();
+      void utils.post.getAllMessages.invalidate();
     },
     onError() {
       toast.error("Something went wrong. Failed to unlike message.");

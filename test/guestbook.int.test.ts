@@ -44,7 +44,7 @@ vi.mock("next-auth/react", () => {
 beforeAll(async () => {
   await prisma.$connect();
 
-  await prisma.guestbook.createMany({
+  await prisma.post.createMany({
     data: [
       {
         name: "Danger Dan",
@@ -75,14 +75,14 @@ describe("The mocked Auth Session", () => {
   });
 });
 
-// test the guestbook queries
-describe("The guestbook query getAll", () => {
+// test the post queries
+describe("The post query getAll", () => {
   beforeAll(async () => {
     await prisma.$connect();
   });
 
   it("should return all posts", async () => {
-    const messages = await prisma.guestbook.findMany({
+    const messages = await prisma.post.findMany({
       select: {
         id: true,
         name: true,
@@ -100,8 +100,8 @@ describe("The guestbook query getAll", () => {
   });
 });
 
-// test the guestbook mutations (postMessage, deleteMessage and updateMessage)
-describe("The guestbook mutation postMessage", () => {
+// test the post mutations (postMessage, deleteMessage and updateMessage)
+describe("The post mutation postMessage", () => {
   beforeAll(async () => {
     await prisma.$connect();
   });
@@ -111,7 +111,7 @@ describe("The guestbook mutation postMessage", () => {
     const userId = data?.user?.id;
     const name = data?.user?.name;
     const message = "This is a test message. Hello World!";
-    const newMessage = await prisma.guestbook.create({
+    const newMessage = await prisma.post.create({
       data: {
         userId: "1",
         name: "Danger Dan",
@@ -125,14 +125,14 @@ describe("The guestbook mutation postMessage", () => {
   });
 });
 
-describe("The guestbook mutation deleteMessage", () => {
+describe("The post mutation deleteMessage", () => {
   beforeAll(async () => {
     await prisma.$connect();
   });
 
   it("should delete a message", async () => {
     const message = "This is a test message that will be deleted.";
-    const messageToBeDeleted = await prisma.guestbook.create({
+    const messageToBeDeleted = await prisma.post.create({
       data: {
         userId: "2",
         name: "Urzuk the Wise",
@@ -144,7 +144,7 @@ describe("The guestbook mutation deleteMessage", () => {
     expect(messageToBeDeleted?.userId).toBe("2");
     expect(messageToBeDeleted?.message).toBe(message);
 
-    const deletedMessage = await prisma.guestbook.delete({
+    const deletedMessage = await prisma.post.delete({
       where: {
         id: messageToBeDeleted?.id,
       },
@@ -156,7 +156,7 @@ describe("The guestbook mutation deleteMessage", () => {
   });
 });
 
-describe("The guestbook mutation updateMessage", () => {
+describe("The post mutation updateMessage", () => {
   beforeAll(async () => {
     await prisma.$connect();
   });
@@ -165,7 +165,7 @@ describe("The guestbook mutation updateMessage", () => {
     const message = "This is a test message that will be updated.";
     const newMessage = "This is the updated message.";
 
-    const messageToBeUpdated = await prisma.guestbook.create({
+    const messageToBeUpdated = await prisma.post.create({
       data: {
         userId: "2",
         name: "Urzuk the Wise",
@@ -173,7 +173,7 @@ describe("The guestbook mutation updateMessage", () => {
       },
     });
 
-    const updatedMessage = await prisma.guestbook.update({
+    const updatedMessage = await prisma.post.update({
       where: {
         id: messageToBeUpdated?.id,
       },
@@ -190,7 +190,11 @@ describe("The guestbook mutation updateMessage", () => {
 
 // delete all messages after each test
 afterAll(async () => {
-  const deleteAllMessages = prisma.guestbook.deleteMany();
-  await prisma.$transaction([deleteAllMessages]);
+  await prisma.$transaction([
+    prisma.like.deleteMany({
+      where: { postId: { not: undefined } },
+    }),
+    prisma.post.deleteMany(),
+  ]);
   await prisma.$disconnect();
 });

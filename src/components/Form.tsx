@@ -13,10 +13,10 @@ const Form = () => {
   const [message, setMessage] = useState("");
   const utils = trpc.useContext();
 
-  const postMessage = trpc.guestbook.postMessage.useMutation({
+  const postMessage = trpc.post.postMessage.useMutation({
     // refetch messages after a message is added
     onSuccess() {
-      void utils.guestbook.getAllMessages.invalidate();
+      void utils.post.getAllMessages.invalidate();
       toast.success("Message posted");
     },
     onError() {

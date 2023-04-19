@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { router, protectedProcedure } from "../trpc";
 
-export const guestbookRouter = router({
+export const postRouter = router({
   postMessage: protectedProcedure
     .input(
       z.object({
@@ -12,7 +12,7 @@ export const guestbookRouter = router({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.guestbook.create({
+        await ctx.prisma.post.create({
           data: {
             userId: input.userId,
             name: input.name,
@@ -27,7 +27,7 @@ export const guestbookRouter = router({
 
   getAllMessages: protectedProcedure.query(async ({ ctx }) => {
     try {
-      return await ctx.prisma.guestbook.findMany({
+      return await ctx.prisma.post.findMany({
         select: {
           id: true,
           name: true,
@@ -66,7 +66,7 @@ export const guestbookRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { id } = input;
       try {
-        await ctx.prisma.guestbook.delete({
+        await ctx.prisma.post.delete({
           where: { id },
         });
       } catch (error) {
@@ -85,7 +85,7 @@ export const guestbookRouter = router({
     .mutation(async ({ ctx, input }) => {
       const { id, message } = input;
       try {
-        await ctx.prisma.guestbook.update({
+        await ctx.prisma.post.update({
           where: { id },
           data: { message },
         });
@@ -108,7 +108,7 @@ export const guestbookRouter = router({
         await ctx.prisma.like.create({
           data: {
             userId: userId,
-            guestbookId: id,
+            postId: id,
           },
         });
       } catch (error) {
@@ -129,8 +129,8 @@ export const guestbookRouter = router({
       try {
         await ctx.prisma.like.delete({
           where: {
-            guestbookId_userId: {
-              guestbookId: id,
+            postId_userId: {
+              postId: id,
               userId: userId,
             },
           },
