@@ -35,6 +35,8 @@ export const postRouter = router({
           name: true,
           userId: true,
           message: true,
+          createdAt: true,
+          updatedAt: true,
           likes: {
             where: {
               userId: ctx.session.user.id,
@@ -149,6 +151,8 @@ export const postRouter = router({
           userId: true,
           postId: true,
           message: true,
+          createdAt: true,
+          updatedAt: true,
           user: {
             select: {
               name: true,
