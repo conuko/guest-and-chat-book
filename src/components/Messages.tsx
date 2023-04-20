@@ -5,6 +5,10 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiFillHeart } from "react-icons/ai";
 import Comments from "./Comments";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const Messages = () => {
   const { data: messages, isLoading } = trpc.post.getAllMessages.useQuery();
@@ -102,16 +106,28 @@ const Messages = () => {
           >
             <div>
               <p>{msg.message}</p>
-              <span className="text-gray-400">- {msg.name}</span>
-              <div className="mt-4 flex items-center">
+              <div className="flex gap-1">
+                <span className="text-gray-400">@{msg.name}</span>
+                <span className="font-bold text-gray-400">
+                  ·{" "}
+                  {
+                    // display the time when the message was created or updated:
+                    msg.updatedAt
+                      ? dayjs(msg.updatedAt).fromNow()
+                      : // if the message has not been updated, display the time when it was created:
+                        dayjs(msg.createdAt).fromNow()
+                  }
+                </span>
+              </div>
+              <div className="mt-4 mb-4 flex items-center">
                 <AiFillHeart color={isLiked ? "red" : "gray"} size="1.5rem" />
                 {isLiked && (
                   <span className="p-1 text-sm text-gray-400">
                     {msg._count?.likes}
                   </span>
                 )}
-                <Comments postId={msg.id} userId={msg.userId} />
               </div>
+              <Comments postId={msg.id} userId={msg.userId} />
             </div>
             <div>
               <button
@@ -132,8 +148,20 @@ const Messages = () => {
           >
             <div>
               <p>{msg.message}</p>
-              <span className="text-gray-400">- {msg.name}</span>
-              <div className="mt-4 flex items-center">
+              <div className="flex gap-1">
+                <span className="text-gray-400">@{msg.name}</span>
+                <span className="font-bold text-gray-400">
+                  ·{" "}
+                  {
+                    // display the time when the message was created or updated:
+                    msg.updatedAt
+                      ? dayjs(msg.updatedAt).fromNow()
+                      : // if the message has not been updated, display the time when it was created:
+                        dayjs(msg.createdAt).fromNow()
+                  }
+                </span>
+              </div>
+              <div className="mt-4 mb-4 flex items-center">
                 <AiFillHeart
                   color={isLiked ? "red" : "gray"}
                   size="1.5rem"
@@ -151,8 +179,8 @@ const Messages = () => {
                     {msg._count?.likes}
                   </span>
                 )}
-                <Comments postId={msg.id} userId={msg.userId} />
               </div>
+              <Comments postId={msg.id} userId={msg.userId} />
             </div>
           </div>
         );
