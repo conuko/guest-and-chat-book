@@ -2,6 +2,17 @@
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
+## Table of Contents
+
+[Get Started](#get-started)
+[Prerequisites](#prerequisites)
+[Installation](#installation)
+[Stripe Local Setup](#stripe-local-setup)
+[Testing](#testing)
+[Application Overview](#application-overview)
+[Deployment](#deployment)
+[Built With](#built-with)
+
 ## Get Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -23,9 +34,10 @@ These instructions will get you a copy of the project up and running on your loc
 6. Run `npx prisma db push` to push the schema to your database.
 7. Run `npm run db:seed` to seed the database (OPTIONAL).
 8. Run `npm run dev` to start the development server.
-9. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-10. Run `npx prisma studio` to open the Prisma Studio to view your database.
-11. Run `npm run docker:down` to stop the database when you’re done. This will also delete all the data in your database.
+9. Install and run Stripe by following [Stripe Local Setup](#stripe-local-setup) below (OPTIONAL).
+10. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+11. Run `npx prisma studio` to open the Prisma Studio to view your database.
+12. Run `npm run docker:down` to stop the database when you’re done. This will also delete all the data in your database.
 
 ### Stripe Local Setup
 

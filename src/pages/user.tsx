@@ -1,25 +1,12 @@
 import type { NextPage, GetServerSideProps } from "next";
-import { unstable_getServerSession } from "next-auth";
-import { signOut, useSession } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { trpc } from "../utils/trpc";
 import { authOptions } from "./api/auth/[...nextauth]";
 import Link from "next/link";
 import Image from "next/image";
 import Address from "../components/Address";
-
-const SignoutButton = () => {
-  return (
-    <button
-      className="w-fit cursor-pointer rounded-md bg-red-500 px-5 py-2 text-lg font-semibold text-white shadow-sm duration-150 hover:bg-red-600"
-      onClick={() => {
-        signOut({ callbackUrl: "/" });
-      }}
-    >
-      Sign out
-    </button>
-  );
-};
 
 const UpgradeButton = () => {
   const { mutateAsync: createCheckoutSession } =
@@ -118,18 +105,13 @@ const User: NextPage = () => {
             </>
           )}
         </div>
-        <SignoutButton />
       </div>
     </main>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
+  const session = await getServerSession(context.req, context.res, authOptions);
 
   if (!session) {
     return {
