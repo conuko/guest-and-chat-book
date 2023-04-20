@@ -141,6 +141,30 @@ export const postRouter = router({
       }
     }),
 
+  getAllComments: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      return await ctx.prisma.comment.findMany({
+        select: {
+          id: true,
+          userId: true,
+          postId: true,
+          message: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      throw new Error(error as string);
+    }
+  }),
+
   addComment: protectedProcedure
     .input(
       z.object({
