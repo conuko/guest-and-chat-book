@@ -33,8 +33,13 @@ const Messages = () => {
       void utils.post.getAllMessages.invalidate();
       toast.success("Message updated.");
     },
-    onError() {
-      toast.error("Something went wrong. Failed to edit message.");
+    onError(e) {
+      const errorMessage = e.data?.zodError?.fieldErrors.message;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Something went wrong. Failed to update message.");
+      }
     },
   });
 
