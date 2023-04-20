@@ -140,4 +140,46 @@ export const postRouter = router({
         throw new Error(error as string);
       }
     }),
+
+  addComment: protectedProcedure
+    .input(
+      z.object({
+        postId: z.string().cuid(),
+        message: z.string().min(5).max(100),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { postId, message } = input;
+      const userId = ctx.session.user.id;
+      try {
+        await ctx.prisma.comment.create({
+          data: {
+            userId: userId,
+            postId: postId,
+            message: message,
+          },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
+
+  deleteComment: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      try {
+        await ctx.prisma.comment.delete({
+          where: { id },
+        });
+      } catch (error) {
+        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
 });
