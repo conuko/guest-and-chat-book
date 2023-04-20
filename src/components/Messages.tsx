@@ -4,11 +4,13 @@ import ReactModal from "react-modal";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiFillHeart } from "react-icons/ai";
+import Comments from "./Comments";
 
 const Messages = () => {
   const { data: messages, isLoading } = trpc.post.getAllMessages.useQuery();
   const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [messageId, setMessageId] = useState("");
   const [message, setMessage] = useState("");
@@ -103,6 +105,7 @@ const Messages = () => {
                     {msg._count?.likes}
                   </span>
                 )}
+                <Comments postId={msg.id} userId={msg.userId} />
               </div>
             </div>
             <div>
@@ -143,14 +146,12 @@ const Messages = () => {
                     {msg._count?.likes}
                   </span>
                 )}
+                <Comments postId={msg.id} userId={msg.userId} />
               </div>
             </div>
           </div>
         );
       })}
-      {deleteMessage.error && (
-        <p>Something went wrong! {deleteMessage.error.message}</p>
-      )}
       <ReactModal
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 top-0 left-0"
         className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6"
