@@ -7,7 +7,10 @@ export const postRouter = router({
       z.object({
         userId: z.string().cuid(),
         name: z.string().min(1),
-        message: z.string().min(5).max(100),
+        message: z
+          .string()
+          .min(5, "Error. Post must be at least 5 characters long.")
+          .max(100, "Error. Post can not be longer than 100 characters."),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -20,7 +23,6 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -52,7 +54,6 @@ export const postRouter = router({
         },
       });
     } catch (error) {
-      console.log(error);
       throw new Error(error as string);
     }
   }),
@@ -70,7 +71,6 @@ export const postRouter = router({
           where: { id },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -79,7 +79,10 @@ export const postRouter = router({
     .input(
       z.object({
         id: z.string().cuid(),
-        message: z.string().min(5).max(100),
+        message: z
+          .string()
+          .min(5, "Error. Post must be at least 5 characters long.")
+          .max(100, "Error. Post can not be longer than 100 characters."),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -90,7 +93,6 @@ export const postRouter = router({
           data: { message },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -112,7 +114,6 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -136,7 +137,6 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -160,7 +160,6 @@ export const postRouter = router({
         },
       });
     } catch (error) {
-      console.log(error);
       throw new Error(error as string);
     }
   }),
@@ -169,7 +168,10 @@ export const postRouter = router({
     .input(
       z.object({
         postId: z.string().cuid(),
-        message: z.string().min(5).max(100),
+        message: z
+          .string()
+          .min(5, "Error. Comment must be at least 5 characters long.")
+          .max(100, "Error. Comment can not be longer than 100 characters."),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -184,7 +186,6 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -202,7 +203,6 @@ export const postRouter = router({
           where: { id },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
