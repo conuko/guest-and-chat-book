@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-// set props for the comment component
 export interface CommentProps {
   postId: string;
   userId: string;
@@ -23,8 +22,13 @@ const Comments: FC<CommentProps> = ({ postId, userId }): JSX.Element => {
       void utils.post.getAllComments.invalidate();
       toast.success("Comment added.");
     },
-    onError() {
-      toast.error("Something went wrong. Failed to add comment.");
+    onError(e) {
+      const errorMessage = e.data?.zodError?.fieldErrors.message;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Failed to add comment.");
+      }
     },
   });
 
