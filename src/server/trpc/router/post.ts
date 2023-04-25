@@ -7,7 +7,10 @@ export const postRouter = router({
       z.object({
         userId: z.string().cuid(),
         name: z.string().min(1),
-        message: z.string().min(5).max(100),
+        message: z
+          .string()
+          .min(5, "Error. Post must be at least 5 characters long.")
+          .max(100, "Error. Post can not be longer than 100 characters."),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -20,7 +23,6 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -33,6 +35,8 @@ export const postRouter = router({
           name: true,
           userId: true,
           message: true,
+          createdAt: true,
+          updatedAt: true,
           likes: {
             where: {
               userId: ctx.session.user.id,
@@ -52,7 +56,6 @@ export const postRouter = router({
         },
       });
     } catch (error) {
-      console.log(error);
       throw new Error(error as string);
     }
   }),
@@ -70,7 +73,6 @@ export const postRouter = router({
           where: { id },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -79,7 +81,10 @@ export const postRouter = router({
     .input(
       z.object({
         id: z.string().cuid(),
-        message: z.string().min(5).max(100),
+        message: z
+          .string()
+          .min(5, "Error. Post must be at least 5 characters long.")
+          .max(100, "Error. Post can not be longer than 100 characters."),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -90,7 +95,6 @@ export const postRouter = router({
           data: { message },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -112,7 +116,6 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
         throw new Error(error as string);
       }
     }),
@@ -136,7 +139,74 @@ export const postRouter = router({
           },
         });
       } catch (error) {
-        console.log(error);
+        throw new Error(error as string);
+      }
+    }),
+
+  getAllComments: protectedProcedure.query(async ({ ctx }) => {
+    try {
+      return await ctx.prisma.comment.findMany({
+        select: {
+          id: true,
+          userId: true,
+          postId: true,
+          message: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+    } catch (error) {
+      throw new Error(error as string);
+    }
+  }),
+
+  addComment: protectedProcedure
+    .input(
+      z.object({
+        postId: z.string().cuid(),
+        message: z
+          .string()
+          .min(5, "Error. Comment must be at least 5 characters long.")
+          .max(100, "Error. Comment can not be longer than 100 characters."),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { postId, message } = input;
+      const userId = ctx.session.user.id;
+      try {
+        await ctx.prisma.comment.create({
+          data: {
+            userId: userId,
+            postId: postId,
+            message: message,
+          },
+        });
+      } catch (error) {
+        throw new Error(error as string);
+      }
+    }),
+
+  deleteComment: protectedProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { id } = input;
+      try {
+        await ctx.prisma.comment.delete({
+          where: { id },
+        });
+      } catch (error) {
         throw new Error(error as string);
       }
     }),

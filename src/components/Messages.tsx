@@ -4,11 +4,17 @@ import ReactModal from "react-modal";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { AiFillHeart } from "react-icons/ai";
+import Comments from "./Comments";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const Messages = () => {
   const { data: messages, isLoading } = trpc.post.getAllMessages.useQuery();
   const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [messageId, setMessageId] = useState("");
   const [message, setMessage] = useState("");
@@ -31,8 +37,13 @@ const Messages = () => {
       void utils.post.getAllMessages.invalidate();
       toast.success("Message updated.");
     },
-    onError() {
-      toast.error("Something went wrong. Failed to edit message.");
+    onError(e) {
+      const errorMessage = e.data?.zodError?.fieldErrors.message;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Something went wrong. Failed to update message.");
+      }
     },
   });
 
@@ -95,8 +106,20 @@ const Messages = () => {
           >
             <div>
               <p>{msg.message}</p>
-              <span className="text-gray-400">- {msg.name}</span>
-              <div className="mt-4 flex items-center">
+              <div className="flex gap-1">
+                <span className="text-gray-400">@{msg.name}</span>
+                <span className="font-bold text-gray-400">
+                  ·{" "}
+                  {
+                    // display the time when the message was created or updated:
+                    msg.updatedAt
+                      ? dayjs(msg.updatedAt).fromNow()
+                      : // if the message has not been updated, display the time when it was created:
+                        dayjs(msg.createdAt).fromNow()
+                  }
+                </span>
+              </div>
+              <div className="mt-4 mb-4 flex items-center">
                 <AiFillHeart color={isLiked ? "red" : "gray"} size="1.5rem" />
                 {isLiked && (
                   <span className="p-1 text-sm text-gray-400">
@@ -104,6 +127,7 @@ const Messages = () => {
                   </span>
                 )}
               </div>
+              <Comments postId={msg.id} userId={msg.userId} />
             </div>
             <div>
               <button
@@ -124,8 +148,20 @@ const Messages = () => {
           >
             <div>
               <p>{msg.message}</p>
-              <span className="text-gray-400">- {msg.name}</span>
-              <div className="mt-4 flex items-center">
+              <div className="flex gap-1">
+                <span className="text-gray-400">@{msg.name}</span>
+                <span className="font-bold text-gray-400">
+                  ·{" "}
+                  {
+                    // display the time when the message was created or updated:
+                    msg.updatedAt
+                      ? dayjs(msg.updatedAt).fromNow()
+                      : // if the message has not been updated, display the time when it was created:
+                        dayjs(msg.createdAt).fromNow()
+                  }
+                </span>
+              </div>
+              <div className="mt-4 mb-4 flex items-center">
                 <AiFillHeart
                   color={isLiked ? "red" : "gray"}
                   size="1.5rem"
@@ -144,13 +180,11 @@ const Messages = () => {
                   </span>
                 )}
               </div>
+              <Comments postId={msg.id} userId={msg.userId} />
             </div>
           </div>
         );
       })}
-      {deleteMessage.error && (
-        <p>Something went wrong! {deleteMessage.error.message}</p>
-      )}
       <ReactModal
         overlayClassName="fixed inset-0 bg-black bg-opacity-50 top-0 left-0"
         className="flex items-center justify-between gap-2 rounded-md border-2 border-zinc-800 p-6"

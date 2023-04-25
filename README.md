@@ -4,14 +4,14 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 
 ## Table of Contents
 
-[Get Started](#get-started)
-[Prerequisites](#prerequisites)
-[Installation](#installation)
-[Stripe Local Setup](#stripe-local-setup)
-[Testing](#testing)
-[Application Overview](#application-overview)
-[Deployment](#deployment)
-[Built With](#built-with)
+1. [Get Started](#get-started)
+2. [Prerequisites](#prerequisites)
+3. [Installation](#installation)
+4. [Stripe Local Setup](#stripe-local-setup)
+5. [Testing](#testing)
+6. [Application Overview](#application-overview)
+7. [Deployment](#deployment)
+8. [Built With](#built-with)
 
 ## Get Started
 

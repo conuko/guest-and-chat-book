@@ -19,8 +19,13 @@ const Form = () => {
       void utils.post.getAllMessages.invalidate();
       toast.success("Message posted");
     },
-    onError() {
-      toast.error("Failed to post message.");
+    onError(e) {
+      const errorMessage = e.data?.zodError?.fieldErrors.message;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Something went wrong. Failed to post message.");
+      }
     },
   });
 
