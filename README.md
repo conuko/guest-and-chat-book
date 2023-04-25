@@ -5,13 +5,12 @@ This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3
 ## Table of Contents
 
 1. [Get Started](#get-started)
-2. [Prerequisites](#prerequisites)
-3. [Installation](#installation)
-4. [Stripe Local Setup](#stripe-local-setup)
-5. [Testing](#testing)
-6. [Application Overview](#application-overview)
-7. [Deployment](#deployment)
-8. [Built With](#built-with)
+2. [Application Overview](#application-overview)
+3. [Architecture](#architecture)
+4. [API Design](#api-design)
+5. [Database Schema](#database-schema)
+6. [Deployment](#deployment)
+7. [Built With](#built-with)
 
 ## Get Started
 
@@ -133,6 +132,38 @@ Utility functions.
 #### `src/utils/trpc.ts`
 
 This file is the main front-end entrypoint to tRPC
+
+## Architecture
+
+### Frontend
+
+The frontend is built with [Next.js](https://nextjs.org/). It uses [Tailwind CSS](https://tailwindcss.com/) for styling. It uses [tRPC](https://trpc.io/) for data fetching and state management. It uses [NextAuth.js](https://next-auth.js.org/) for authentication.
+
+### Backend
+
+The backend is built with [tRPC](https://trpc.io/). It uses [Prisma](https://www.prisma.io/) as an ORM. It uses [Stripe](https://stripe.com/) for payments. It uses [NextAuth.js](https://next-auth.js.org/) for authentication.
+
+#### tRPC
+
+tRPC delivers on GraphQL’s promise of seamless client development against a typesafe server without all of the boilerplate. It’s a clever abuse of TypeScript that provides an incredible dev experience.
+
+#### Prisma
+
+Prisma is a modern database toolkit. It replaces traditional ORMs and makes database access easy with an auto-generated query builder for TypeScript & Node.js.
+By generating types from a Prisma schema, you can use Prisma Client to access your database inside your application’s TypeScript code with guaranteed type-safety and autocompletion.
+
+#### Stripe
+
+Stripe is a payment processing platform. It is used to process payments for the website.
+
+#### NextAuth.js
+
+NextAuth.js is a complete open source authentication solution for Next.js applications. It is used to authenticate users with Discord and GitHub (more providers can be added) with a complex and secure OAuth flow.
+NextAuth.js also provides a session management system with support for JWT and database sessions (Prisma is used for database sessions).
+
+## API Design
+
+## Database Schema
 
 ## Deployment
 
