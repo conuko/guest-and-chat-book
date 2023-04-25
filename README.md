@@ -62,14 +62,77 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Application Overview
 
-- `prisma/*` - The prisma schema.
-- `public/*` - Static assets including fonts and images.
-- `src/env/*` - Validation for environment variables.
-- `src/pages/*` - All the pages of the website.
-- `src/server/*` - The backend, which is a tRPC server.
-- `src/styles/*` - Global CSS files, but we’re going to be using Tailwind CSS for most of our styles.
-- `src/types/*` - Next Auth type declarations.
-- `src/utils/*` - Utility functions.
+### `libs`
+
+The `libs` folder contains shared libraries for mocking and testing the backend (prisma and tRPC).
+
+### `prisma`
+
+The prisma schema. It contains the database schema and migrations. It also contains the seed data.
+
+### `public`
+
+Static assets.
+
+### `src/components/`
+
+React components.
+
+### `src/env/`
+
+Validation for environment variables.
+
+### `src/pages/`
+
+All the pages of the website.
+
+#### `src/pages/api/`
+
+Next.js API routes.
+
+#### `src/pages/api/auth/[...nextauth].ts`
+
+The NextAuth.js authentication slug route. This is used to authenticate users with Discord and GitHub (more providers can be added).
+
+#### `src/pages/api/trpc/[trpc].ts`
+
+The tRPC API entrypoint. This file is here to handle all the API requests.
+
+### `src/server/`
+
+The backend, which is a tRPC server. It contains the tRPC router, context, and the prisma client.
+
+### `src/server/common/get-server-auth-session.ts`
+
+A helper function to get the user session from the NextAuth.js session.
+
+### `src/server/db/client.ts`
+
+The prisma client. It is used to initialize the Prisma client at global scope and to query the database.
+
+### `src/server/stripe/`
+
+The Stripe API. It contains the Stripe API client and the Stripe API routes. It also contains the Stripe webhook handler. The Stripe API routes are used to create a Stripe checkout session and to retrieve the Stripe customer.
+
+### `src/server/trpc/`
+
+It contains the tRPC router with the tRPC queries and mutations. The tRPC router is used to initialize the tRPC router at global scope. The tRPC router is also used to handle the tRPC queries and mutations. The tRPC queries and mutations are used to retrieve and update data in the database. The tRPC queries and mutations are also used to retrieve and update data in the Stripe API.
+
+### `src/styles/*`
+
+Global CSS files, but we use Tailwind CSS for most of our styles.
+
+### `src/types/*`
+
+Next Auth type declarations.
+
+### `src/utils/*`
+
+Utility functions.
+
+#### `src/utils/trpc.ts`
+
+This file is the main front-end entrypoint to tRPC
 
 ## Deployment
 
