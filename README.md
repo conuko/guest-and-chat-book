@@ -101,19 +101,19 @@ The tRPC API entrypoint. This file is here to handle all the API requests.
 
 The backend, which is a tRPC server. It contains the tRPC router, context, and the prisma client.
 
-### `src/server/common/get-server-auth-session.ts`
+#### `src/server/common/get-server-auth-session.ts`
 
 A helper function to get the user session from the NextAuth.js session.
 
-### `src/server/db/client.ts`
+#### `src/server/db/client.ts`
 
 The prisma client. It is used to initialize the Prisma client at global scope and to query the database.
 
-### `src/server/stripe/`
+#### `src/server/stripe/`
 
 The Stripe API. It contains the Stripe API client and the Stripe API routes. It also contains the Stripe webhook handler. The Stripe API routes are used to create a Stripe checkout session and to retrieve the Stripe customer.
 
-### `src/server/trpc/`
+#### `src/server/trpc/`
 
 It contains the tRPC router with the tRPC queries and mutations. The tRPC router is used to initialize the tRPC router at global scope. The tRPC router is also used to handle the tRPC queries and mutations. The tRPC queries and mutations are used to retrieve and update data in the database. The tRPC queries and mutations are also used to retrieve and update data in the Stripe API.
 
