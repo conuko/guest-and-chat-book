@@ -84,17 +84,39 @@ model UserAddress {
 }
 
 model Post {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  name      String
-  message   String    @db.VarChar(100)
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String
-  likes     Like[]
-  comments  Comment[]
+  id                String              @id @default(cuid())
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  name              String
+  message           String              @db.VarChar(100)
+  user              User                @relation(fields: [userId], references: [id])
+  userId            String
+  likes             Like[]
+  comments          Comment[]
+  CategoriesOnPosts CategoriesOnPosts[]
 
   @@index([userId])
+}
+
+model Category {
+  id                String              @id @default(cuid())
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  name              String
+  CategoriesOnPosts CategoriesOnPosts[]
+
+  @@index([name])
+}
+
+model CategoriesOnPosts {
+  post       Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId     String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String
+
+  @@id([postId, categoryId])
+  @@index([postId])
+  @@index([categoryId])
 }
 
 model Like {
