@@ -13,5 +13,7 @@ export default createNextApiHandler({
       ? ({ path, error }) => {
           console.error(`❌ tRPC failed on ${path}: ${error}`);
         }
-      : undefined,
+      : ({ error }) => {
+          console.error(error);
+        },
 });
