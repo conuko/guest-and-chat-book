@@ -30,7 +30,7 @@ These instructions will get you a copy of the project up and running on your loc
 3. `DATABASE_URL` is the connection string to your database. Just use `DATABASE_URL=mysql://root:password@localhost:3306/testdb` for now.
 4. For authentication paste your Discord client ID and secret in `DISCORD_CLIENT_ID` and `DISCORD_CLIENT_SECRET` (same goes for GitHub). You can get these from the [Discord Developer Portal](https://discord.com/developers/applications).
 5. Run `npm run docker:up` to start the database.
-6. Run `npx prisma db push` to push the schema to your database.
+6. Run `npx prisma db push` to push the schema to your database and generate the TypeScript types for the Prisma Client based on your schema. Make sure to [restart the TS Server](https://tinytip.co/tips/vscode-restart-ts/) after this step so that it can detect the generated types.
 7. Run `npm run db:seed` to seed the database (OPTIONAL).
 8. Run `npm run dev` to start the development server.
 9. Install and run Stripe by following [Stripe Local Setup](#stripe-local-setup) below (OPTIONAL).
@@ -141,16 +141,20 @@ The frontend is built with [Next.js](https://nextjs.org/). It uses [Tailwind CSS
 
 ### Backend
 
-The backend is built with [tRPC](https://trpc.io/). It uses [Prisma](https://www.prisma.io/) as an ORM. It uses [Stripe](https://stripe.com/) for payments. It uses [NextAuth.js](https://next-auth.js.org/) for authentication.
+The backend is built with [tRPC](https://trpc.io/) and [Typescript](https://www.typescriptlang.org/docs/handbook/). It uses [Prisma](https://www.prisma.io/) as an ORM with [Zod](https://github.com/colinhacks/zod) as schema validation. It uses [Tanstack Query](https://tanstack.com/query/v4/) for declarative, always-up-to-date and auto-managed queries and mutations. It uses [Stripe](https://stripe.com/) for payments. It uses [NextAuth.js](https://next-auth.js.org/) for authentication. It also uses [Docker](https://www.docker.com/) to quick and easy run the database locally.
 
 #### tRPC
 
-tRPC delivers on GraphQL’s promise of seamless client development against a typesafe server without all of the boilerplate. It’s a clever abuse of TypeScript that provides an incredible dev experience.
+tRPC enables the creation of end-to-end typesafe APIs while eliminating code generation and runtime bloat. It takes advantage of TypeScript's excellent inference capabilities to deduce your API router's type definitions, providing complete typesafety and autocompletion when calling API procedures from your frontend.
 
 #### Prisma
 
 Prisma is a modern database toolkit. It replaces traditional ORMs and makes database access easy with an auto-generated query builder for TypeScript & Node.js.
 By generating types from a Prisma schema, you can use Prisma Client to access your database inside your application’s TypeScript code with guaranteed type-safety and autocompletion.
+
+#### Zod
+
+Zod is a schema validation library built on top of Typescript. Write a schema that represents a single source of truth for your data, and Zod will ensure that your data is valid throughout your application, even across network boundaries and external APIs.
 
 #### Stripe
 
