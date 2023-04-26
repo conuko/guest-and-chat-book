@@ -168,6 +168,7 @@ NextAuth.js also provides a session management system with support for JWT and d
 ## API Design
 
 ## Database Schema
+![guestbook-db](https://user-images.githubusercontent.com/50672977/234348093-bce69073-e420-4187-a8f2-9ba019ceacc5.png)
 
 ## Deployment
 
