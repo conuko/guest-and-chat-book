@@ -217,7 +217,7 @@ tRPC is used for the API. It is a typesafe API framework for TypeScript. It is u
 
 ## Database
 
-The database is defined in the `prisma/schema.prisma` file. The Prisma Schema is the single source of truth for your database schema. It is used to generate the Prisma Client, which is used to access the database from the backend. It is also used to generate the TypeScript types for the database schema, which is used to access the database from the frontend.
+The database is defined in the `prisma/schema.prisma` file. The Prisma Schema is the single source of truth for the database. It is used to generate the Prisma Client, which is used to access the database from the backend. It is also used to generate the TypeScript types for the database schema, which is used to access the database from the frontend.
 
 The database is a MySQL database. It is hosted on [Planet Scale](https://planetscale.com/).
 
