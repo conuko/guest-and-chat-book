@@ -186,7 +186,7 @@ tRPC is used for the API. It is a typesafe API framework for TypeScript. It is u
 
 ### tRPC API Routers
 
-`#### post`
+#### post
 
 - Query #1: `post.getAllMessages` - Get all the posts.
 - Query #2: `post.getAllComments` - Get all comments.
@@ -198,19 +198,19 @@ tRPC is used for the API. It is a typesafe API framework for TypeScript. It is u
 - Mutation #6: `post.addComment` - Comment on a post.
 - Mutation #7: `post.deleteComment` - Delete a comment.
 
-`#### user`
+#### user
 
 - Query #1: `user.subscriptionStatus` - Get the user's subscription status.
 - Query #2: `user.getUserAddress` - Get the user's address.
 - Mutation #1: `user.addUserAddress` - Create the user's address.
 - Mutation #2: `user.updateUserAddress` - Update the user's address.
 
-`#### stripe`
+#### stripe
 
 - Query #1: `stripe.createCheckoutSession` - Create a Stripe checkout session.
 - Query #2: `stripe.createBillingPortalSession` - Create a Stripe billing portal session.
 
-`#### auth`
+#### auth
 
 - Query #1: `auth.getSession` - Get the user's session.
 - Query #2: `auth.getSecretMessage` - Get the secret message.
