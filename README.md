@@ -6,12 +6,12 @@ This project is a guestbook / twitter clone. It allows users to create, like, an
 
 ## Table of Contents
 
-1. [Get Started](#get-started)
-2. [Features](#features)
+1. [Features](#features)
+2. [Get Started](#get-started)
 3. [Application Overview](#application-overview)
 4. [Architecture](#architecture)
 5. [API Design](#api-design)
-6. [Database Schema](#database-schema)
+6. [Database](#database)
 7. [Deployment](#deployment)
 8. [Built With](#built-with)
 
@@ -216,6 +216,21 @@ tRPC is used for the API. It is a typesafe API framework for TypeScript. It is u
 - Query #2: `auth.getSecretMessage` - Get the secret message.
 
 ## Database
+
+The database is defined in the `prisma/schema.prisma` file. The Prisma Schema is the single source of truth for your database schema. It is used to generate the Prisma Client, which is used to access the database from the backend. It is also used to generate the TypeScript types for the database schema, which is used to access the database from the frontend.
+
+The database is a MySQL database. It is hosted on [Planet Scale](https://planetscale.com/).
+
+### Use Cases
+
+For all use cases check out the [API Design](#api-design) chapter.
+
+### Design Choices
+
+- I made the decision that a post can have multiple likes but one user can like one specific post just once. If the user likes the post again, the like will be removed. This is done to prevent spamming likes by one user. If a user deletes a post, all likes on that post will be deleted as well.
+- A user can only have one single address. If the user adds a new address, the old address will be overwritten. This is done to prevent spamming addresses. If a user deletes their account, the address will be deleted as well.
+- I made the decision that a user can only have one single subscription. If the user subscribes again, the old subscription will be overwritten. If a user deletes their account, the subscription will be deleted as well.
+- One or more posts can have one or more categories (many-to-many relationship). I decided to implement this many-to-many relation as an explicit m-n-relation. It consists now of two models with m-n-relation (Post and Category) and one additional model that represents the relation table of the two models (CategoriesOnPost).
 
 ![guestbook-db](https://user-images.githubusercontent.com/50672977/234784271-5410328a-8e2d-4471-965e-9e4c272aeda3.png)
 
