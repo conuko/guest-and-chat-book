@@ -145,6 +145,7 @@ Utility functions.
 This file is the main front-end entrypoint to tRPC
 
 ## Architecture
+
 ![guestbook_flowchart](https://user-images.githubusercontent.com/50672977/234863036-bbc71dab-87a8-4bb0-8906-188ad20fc629.png)
 
 ### Frontend
@@ -180,6 +181,39 @@ NextAuth.js is a complete open source authentication solution for Next.js applic
 NextAuth.js also provides a session management system with support for JWT and database sessions (Prisma is used for database sessions).
 
 ## API Design
+
+tRPC is used for the API. It is a typesafe API framework for TypeScript. It is used to create an API router with queries and mutations. It is also used to create an API client to call the API router from the frontend.
+
+### tRPC API Routers
+
+`#### post`
+
+- Query #1: `post.getAllMessages` - Get all the posts.
+- Query #2: `post.getAllComments` - Get all comments.
+- Mutation #1: `post.postMessage` - Create a new post.
+- Mutation #2: `post.deleteMessage` - Delete a message.
+- Mutation #3: `post.updateMessage` - Edit a message.
+- Mutation #4: `post.likeMessage` - Like a message.
+- Mutation #5: `post.unlikeMessage` - Unlike a message.
+- Mutation #6: `post.addComment` - Comment on a post.
+- Mutation #7: `post.deleteComment` - Delete a comment.
+
+`#### user`
+
+- Query #1: `user.subscriptionStatus` - Get the user's subscription status.
+- Query #2: `user.getUserAddress` - Get the user's address.
+- Mutation #1: `user.addUserAddress` - Create the user's address.
+- Mutation #2: `user.updateUserAddress` - Update the user's address.
+
+`#### stripe`
+
+- Query #1: `stripe.createCheckoutSession` - Create a Stripe checkout session.
+- Query #2: `stripe.createBillingPortalSession` - Create a Stripe billing portal session.
+
+`#### auth`
+
+- Query #1: `auth.getSession` - Get the user's session.
+- Query #2: `auth.getSecretMessage` - Get the secret message.
 
 ## Database
 
