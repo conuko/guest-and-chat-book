@@ -2,15 +2,28 @@
 
 This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
+This project is a guestbook / twitter clone. It allows users to create, like, and comment posts.
+
 ## Table of Contents
 
 1. [Get Started](#get-started)
-2. [Application Overview](#application-overview)
-3. [Architecture](#architecture)
-4. [API Design](#api-design)
-5. [Database Schema](#database-schema)
-6. [Deployment](#deployment)
-7. [Built With](#built-with)
+2. [Features](#features)
+3. [Application Overview](#application-overview)
+4. [Architecture](#architecture)
+5. [API Design](#api-design)
+6. [Database Schema](#database-schema)
+7. [Deployment](#deployment)
+8. [Built With](#built-with)
+
+## Features
+
+- Authentication with Discord and GitHub.
+- Create, read, edit, and delete posts: You can edit a post by clicking on the post. Edit and delete are only possible on your own posts.
+- Like and unlike posts (only possible on other users posts).
+- Comment on posts (only possible on other users posts), delete comments (only the author of the comment can delete it).
+- Visit your user profile (by clicking on your username). (`/user` route)
+- Add an address to your profile.
+- Subscribe to a paid plan to unlock the ability to post messages (by clicking on the "Subscribe" button in the `/user` route). The subscription is handled by Stripe. The subscription is cancelled after 30 days. You can use the test credit card nuumber to test the subscription (see [Stripe Local Setup](#stripe-local-setup) below).
 
 ## Get Started
 
@@ -50,8 +63,6 @@ These instructions will get you a copy of the project up and running on your loc
    - `STRIPE_PRICE_ID` - The price ID of your Stripe product.
 5. To test Stripe you can use the following test card numbers:
    - `4242 4242 4242 4242` - A successful payment.
-   - `4000 0000 0000 0002` - Declined payment.
-   - `4000 0000 0000 9995` - Declined payment, insufficient funds.
    - For more test card numbers, refer to the [Stripe documentation](https://stripe.com/docs/testing#cards).
 
 ### Testing
@@ -168,8 +179,8 @@ NextAuth.js also provides a session management system with support for JWT and d
 ## API Design
 
 ## Database
-![guestbook-db](https://user-images.githubusercontent.com/50672977/234784271-5410328a-8e2d-4471-965e-9e4c272aeda3.png)
 
+![guestbook-db](https://user-images.githubusercontent.com/50672977/234784271-5410328a-8e2d-4471-965e-9e4c272aeda3.png)
 
 ## Deployment
 
