@@ -145,6 +145,7 @@ Utility functions.
 This file is the main front-end entrypoint to tRPC
 
 ## Architecture
+![guestbook_flowchart](https://user-images.githubusercontent.com/50672977/234863036-bbc71dab-87a8-4bb0-8906-188ad20fc629.png)
 
 ### Frontend
 
@@ -153,6 +154,8 @@ The frontend is built with [Next.js](https://nextjs.org/). It uses [Tailwind CSS
 ### Backend
 
 The backend is built with [tRPC](https://trpc.io/) and [Typescript](https://www.typescriptlang.org/docs/handbook/). It uses [Prisma](https://www.prisma.io/) as an ORM with [Zod](https://github.com/colinhacks/zod) as schema validation. It uses [Tanstack Query](https://tanstack.com/query/v4/) for declarative, always-up-to-date and auto-managed queries and mutations. It uses [Stripe](https://stripe.com/) for payments. It uses [NextAuth.js](https://next-auth.js.org/) for authentication. It also uses [Docker](https://www.docker.com/) to quick and easy run the database locally.
+
+The whole Next.js application is deployed at Vercel. The MySQL database is deployed at Planetscale.
 
 #### tRPC
 
