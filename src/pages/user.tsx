@@ -110,6 +110,7 @@ const User: NextPage = () => {
   );
 };
 
+// use getServerSideProps to get the session object and redirect the user if they are not authenticated
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getServerSession(context.req, context.res, authOptions);
 
