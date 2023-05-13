@@ -15,6 +15,7 @@ export interface CommentProps {
 
 const Comments: FC<CommentProps> = ({ postId, userId }): JSX.Element => {
   const { data: comments, isLoading } = trpc.post.getAllComments.useQuery();
+  const { data: subscriptionStatus } = trpc.user.subscriptionStatus.useQuery();
   const { data: session } = useSession();
 
   const [comment, setComment] = useState("");
@@ -58,7 +59,7 @@ const Comments: FC<CommentProps> = ({ postId, userId }): JSX.Element => {
 
   return (
     <div>
-      {userId !== session?.user?.id && (
+      {userId !== session?.user?.id && subscriptionStatus === "active" && (
         <form onSubmit={handleComment} className="flex gap-2">
           <input
             className="rounded-md border-2 border-zinc-800 bg-neutral-900 px-4 py-2 opacity-50 focus:opacity-100 focus:outline-none"
@@ -98,16 +99,17 @@ const Comments: FC<CommentProps> = ({ postId, userId }): JSX.Element => {
                     </div>
                   </div>
 
-                  {comment.userId === session?.user?.id && (
-                    <div>
-                      <button
-                        className="z-50 pl-5 text-red-400 hover:text-red-500"
-                        onClick={() => handleDelete(comment.id)}
-                      >
-                        X
-                      </button>
-                    </div>
-                  )}
+                  {comment.userId === session?.user?.id &&
+                    subscriptionStatus === "active" && (
+                      <div>
+                        <button
+                          className="z-50 pl-5 text-red-400 hover:text-red-500"
+                          onClick={() => handleDelete(comment.id)}
+                        >
+                          X
+                        </button>
+                      </div>
+                    )}
                 </div>
               )
           )}

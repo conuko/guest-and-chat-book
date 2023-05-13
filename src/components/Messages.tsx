@@ -173,6 +173,12 @@ const Messages = () => {
                   size="1.5rem"
                   cursor="pointer"
                   onClick={() => {
+                    if (subscriptionStatus !== "active") {
+                      toast.error(
+                        "You must be subscribed in to like a message."
+                      );
+                      return;
+                    }
                     if (isLikedByUser) {
                       unlikeMessage.mutate({ id: msg.id });
                     } else {
