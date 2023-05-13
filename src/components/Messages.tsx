@@ -93,6 +93,9 @@ const Messages = () => {
     <div className="flex flex-col gap-4">
       {messages?.map((msg, index) => {
         const isLiked = msg._count.likes > 0;
+        const isLikedByUser = msg.likes.some(
+          (like) => like.userId === session?.user?.id
+        );
         /* 
         if the message belongs to the subscribed user,
         make it possible to click and edit message and show delete button:
@@ -120,7 +123,10 @@ const Messages = () => {
                 </span>
               </div>
               <div className="mt-4 mb-4 flex items-center">
-                <AiFillHeart color={isLiked ? "red" : "gray"} size="1.5rem" />
+                <AiFillHeart
+                  color={isLikedByUser ? "red" : "gray"}
+                  size="1.5rem"
+                />
                 {isLiked && (
                   <span className="p-1 text-sm text-gray-400">
                     {msg._count?.likes}
@@ -163,11 +169,11 @@ const Messages = () => {
               </div>
               <div className="mt-4 mb-4 flex items-center">
                 <AiFillHeart
-                  color={isLiked ? "red" : "gray"}
+                  color={isLikedByUser ? "red" : "gray"}
                   size="1.5rem"
                   cursor="pointer"
                   onClick={() => {
-                    if (isLiked) {
+                    if (isLikedByUser) {
                       unlikeMessage.mutate({ id: msg.id });
                     } else {
                       likeMessage.mutate({ id: msg.id });
