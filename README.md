@@ -232,7 +232,7 @@ For all use cases check out the [API Design](#api-design) chapter.
 - I made the decision that a user can only have one single subscription. If the user subscribes again, the old subscription will be overwritten. If a user deletes their account, the subscription will be deleted as well.
 - One or more posts can have one or more categories (many-to-many relationship). I decided to implement this many-to-many relation as an explicit m-n-relation. It consists now of two models with m-n-relation (Post and Category) and one additional model that represents the relation table of the two models (CategoriesOnPost).
 
-![guestbook-db](https://user-images.githubusercontent.com/50672977/234784271-5410328a-8e2d-4471-965e-9e4c272aeda3.png)
+![guestbook-db-new](https://github.com/conuko/guest-and-chat-book/assets/50672977/f1b821e3-7d5c-42ea-85fd-102002815e93)
 
 ## Deployment
 
