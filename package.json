@@ -10,7 +10,7 @@
     "lint": "next lint",
     "start": "next start",
     "test": "vitest",
-    "test:ci": "vitest --ci",
+    "test:unit": "vitest test/post.unit.test.ts",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down -v",
     "prisma:migrate:deploy:prod": "dotenv -e .env.production prisma migrate deploy",
